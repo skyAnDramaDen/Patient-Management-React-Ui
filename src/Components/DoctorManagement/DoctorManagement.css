@@ -1,0 +1,106 @@
+.doctor-management {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    flex: 1;
+    max-width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.sidebar h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    cursor: pointer;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.sidebar ul li:hover {
+    background-color: #eaeaea;
+    transform: scale(1.02);
+}
+
+.main-content {
+    flex: 2;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.main-content h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.main-content p {
+    font-size: 1em;
+    margin-bottom: 8px;
+}
+
+.schedule {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f4f4f4;
+}
+
+.schedule h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.schedule table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.schedule table, .schedule th, .schedule td {
+    border: 1px solid #ddd;
+}
+
+.schedule th, .schedule td {
+    padding: 12px;
+    text-align: left;
+}
+
+.schedule th {
+    background-color: #f2f2f2;
+}
+
+.schedule tr:hover {
+    background-color: #eaeaea;
+}
+
+.whole-board {
+    display: flex;
+    flex-direction: column;
+}
+
+.mngt-board {
+    display: flex;
+}
+
+.times {
+    display: flex;
+}

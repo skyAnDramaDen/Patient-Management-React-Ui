@@ -1,0 +1,59 @@
+.manage-appointments {
+    padding: 30px;
+    background: #f4f7fb;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+}
+
+.manage-appointments h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #265a93;
+    margin-bottom: 30px;
+}
+
+.appointment-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.action-button {
+    display: block;
+    padding: 15px;
+    background: #265a93;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.action-button:hover {
+    background: #1c476d;
+}
+
+.action-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(38, 90, 147, 0.3);
+}
+
+@media (max-width: 768px) {
+    .manage-appointments {
+        padding: 20px;
+    }
+
+    .manage-appointments h2 {
+        font-size: 28px;
+    }
+
+    .appointment-actions {
+        grid-template-columns: 1fr 1fr;
+    }
+}

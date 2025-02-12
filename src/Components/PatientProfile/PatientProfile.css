@@ -1,0 +1,100 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Patient Profile Container */
+  .patient-profile {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Title */
+  .patient-profile-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #265A93; /* Matching your navbar color */
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Sections */
+  .profile-section {
+    margin-bottom: 24px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #265A93;
+    padding-bottom: 8px;
+  }
+  
+  .section-content {
+    font-size: 16px;
+    color: #555555;
+  }
+  
+  .section-content p {
+    margin-bottom: 8px;
+  }
+  
+  .section-content strong {
+    color: #333333;
+    font-weight: 500;
+  }
+  
+  /* Recent Visits */
+  .recent-visits .section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .visit-card {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .visit-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .visit-card p {
+    margin-bottom: 8px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .patient-profile {
+      padding: 15px;
+    }
+  
+    .patient-profile-title {
+      font-size: 24px;
+    }
+  
+    .section-title {
+      font-size: 18px;
+    }
+  
+    .section-content {
+      font-size: 14px;
+    }
+  }

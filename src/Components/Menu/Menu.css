@@ -1,0 +1,72 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Menu Container */
+.menu {
+  width: 250px; /* Fixed width for the menu */
+  height: 100vh; /* Full height of the viewport */
+  background-color: #265A93; /* Navbar color */
+  color: #ffffff; /* White text for contrast */
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Menu Header */
+.menu-header {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: start;
+  padding: 10px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+}
+
+/* Menu List */
+.menu-list {
+  list-style: none;
+  width: 100%;
+}
+
+/* Menu Links */
+.menu-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Menu Items */
+.menu-item {
+  font-size: 16px;
+  padding: 5px;
+  margin: 5px 0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.1); /* Light hover effect */
+  transform: translateX(10px);
+}
+
+/* Logout Item (Optional Styling) */
+.menu-item:last-child {
+  margin-top: auto; /* Push logout to the bottom */
+  background: rgba(255, 255, 255, 0.1); /* Slightly different background */
+}
+
+.menu-item:last-child:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(10px);
+}

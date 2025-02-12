@@ -1,0 +1,8 @@
+.bodycontent {
+    display: flex;
+    height: 100%;
+}
+
+.content-div {
+    flex: 1;
+}

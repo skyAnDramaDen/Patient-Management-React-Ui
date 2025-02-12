@@ -1,0 +1,91 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* View Patients Container */
+.view-patients {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Title */
+.view-patients h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #265A93;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Top View (for back button and other controls) */
+.top-view {
+    display: flex;
+    justify-content: flex-start; /* Aligns content to the left */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.top-view h2 {
+    margin: 0 auto;
+}
+
+/* Back Button */
+.back-button {
+    padding: 10px 20px;
+    background: #265A93;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.back-button:hover {
+    background: #1c476d;
+}
+
+/* Centering Patient List */
+.patient-list-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Patient List */
+.patient-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Reduced gap to reduce space between cards */
+    justify-content: flex-start; /* Ensure items start from the leftmost edge */
+    align-items: flex-start; /* Align items to the top */
+    padding: 10px;
+}
+
+/* Patient Card */
+.patient-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 5px; /* Reduced margin to further reduce space between cards */
+    width: 250px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.patient-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .patient-list {
+        flex-direction: column;
+    }
+}
