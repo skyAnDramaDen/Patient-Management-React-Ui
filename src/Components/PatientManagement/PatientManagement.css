@@ -8,6 +8,10 @@
     margin: auto;
     text-align: center;
   }
+
+  .top-view button {
+    width: 100px;
+  }
   
   .patient-management h2 {
     font-size: 32px;

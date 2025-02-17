@@ -22,7 +22,7 @@
     margin: 0;
     padding: 0;
     flex: 3;
-    justify-content: center; /* Centers the menu items */
+    justify-content: center;
   }
   
   .nav-menu li {
@@ -42,7 +42,7 @@
   .nav-login {
     flex: 1;
     display: flex;
-    justify-content: flex-end; /* Positions the login button to the far right */
+    justify-content: flex-end;
   }
   
   .nav-login button {
@@ -53,6 +53,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100px;
   }
   
   .nav-login button:hover {

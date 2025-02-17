@@ -13,6 +13,8 @@ import ManageAppointments from '../ManageAppointments/ManageAppointments';
 import EditPatientForm from '../EditPatientForm/EditPatientForm';
 import AddAppointment from '../AddAppointment/AddAppointment';
 import DoctorManagement from '../DoctorManagement/DoctorManagement';
+import AddDoctorForm from '../AddDoctor/AddDoctor';
+import DoctorProfile from '../DoctorProfile/DoctorProfile';
 
 export default function BodyContent() {
   return (
@@ -30,7 +32,6 @@ export default function BodyContent() {
           <Route path="/patients" element={<ViewPatients />}>
 						View Patients
 					</Route>
-          {/* <Route path="/patient/:id" element={<PatientProfile />} /> */}
           <Route path="/patient-profile" element={<PatientProfile />}>
 						Patient Profile
 					</Route>
@@ -44,10 +45,16 @@ export default function BodyContent() {
 						Edit Patient
 					</Route>
           <Route path="/appointments/new" element={<AddAppointment />}>
-						Edit Patient
+						Add Appointment
 					</Route>
           <Route path="/staff/doctors" element={<DoctorManagement />}>
 						Doctors
+					</Route>
+          <Route path="/staff/doctors/add" element={<AddDoctorForm />}>
+						Add Doctors
+					</Route>
+          <Route path="/staff/doctors/doctor/profile" element={<DoctorProfile />}>
+						Profile
 					</Route>
         </Routes>
         </div>

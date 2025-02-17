@@ -7,10 +7,18 @@ const EditPatientForm = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
     const [patient, setPatient] = useState(state ? state.patient : null);
+    const [newUser, setNewUser] = useState({
+        username: "",
+        password: "",
+        role: "doctor"
+      });
+
+      const handleUserData = (e) => {
+        setNewUser({ ...newUser, [e.target.name]: e.target.value });
+      };
 
     useEffect(() => {
         if (!state) {
-            // Redirect to a safe page or display an error message if state is null
             navigate('/');
         }
     }, [state, navigate]);
@@ -22,7 +30,11 @@ const EditPatientForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        $.post(`http://localhost:8000/patients/update`, patient, (response) => {
+        const payload = {
+            patient: patient,
+            user: newUser
+        }
+        $.post(`http://localhost:3000/patients/update`, payload, (response) => {
             console.log('Patient updated successfully!', response);
             navigate('/patient-profile', { state: { patient: response } });
         }).fail((error) => {
@@ -32,7 +44,7 @@ const EditPatientForm = () => {
     };
 
     if (!patient) {
-        return <p>Loading patient data...</p>; // Add a fallback if patient is null
+        return <p>Loading patient data...</p>;
     }
 
     return (

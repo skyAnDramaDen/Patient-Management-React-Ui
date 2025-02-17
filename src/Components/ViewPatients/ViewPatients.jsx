@@ -13,7 +13,6 @@ const ViewPatients = () => {
   useEffect(() => {
     const fetchPatients = () => {
       $.get('http://localhost:3000/patients', (data) => {
-        console.log(data);
         setPatients(data);
         setLoading(false);
       }).fail((err) => {

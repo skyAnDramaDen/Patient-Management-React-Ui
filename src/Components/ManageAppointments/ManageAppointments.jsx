@@ -3,13 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const ManageAppointments = () => {
-  const navigate = useNavigate(); // For back navigation
+  const navigate = useNavigate(); 
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
-    // Fetch upcoming appointments from API or mock data
     const fetchAppointments = async () => {
-      // Replace with real API call if available
       const mockAppointments = [
         { id: 1, date: "2025-02-15", time: "10:00 AM", doctor: "Dr. Smith", patient: "John Doe" },
         { id: 2, date: "2025-02-16", time: "2:00 PM", doctor: "Dr. Brown", patient: "Jane Doe" },
@@ -30,7 +28,6 @@ const ManageAppointments = () => {
         <Link to="/appointments/new" className="action-button">➕ Add New Appointment</Link>
       </div>
 
-      {/* Upcoming Appointments Table */}
       <div className="upcoming-appointments">
         <h3>Upcoming Appointments</h3>
         <table>

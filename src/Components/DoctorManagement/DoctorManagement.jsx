@@ -1,5 +1,5 @@
 import "./DoctorManagement.css";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import $ from 'jquery';
 
@@ -8,58 +8,39 @@ const DoctorManagement = () => {
     const [doctors, setDoctors] = useState([]);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
     const [schedule, setSchedule] = useState([]);
-    const [filteredSchedule, setFilteredSchedule] = useState([]);
-    const [newSchedule, setNewSchedule] = useState({ date: "", time: "" });
     const [selectedDate, setSelectedDate] = useState("");
     const [selectedStartTime, setSelectedStartTime] = useState("");
     const [selectedEndTime, setSelectedEndTime] = useState("");
 
     useEffect(() => {
-        // Fetch the list of doctors
-        $.get('http://localhost:3000/doctors', (response) => {
-            setDoctors(response);
-            console.log(response);
-        }).fail((error) => {
-            console.error('There was an error fetching the doctors!', error);
-        });
+        // $.get('http://localhost:3000/doctors', (response) => {
+        //     setDoctors(response);
+        //     console.log(response);
+        // }).fail((error) => {
+        //     console.error('There was an error fetching the doctors!', error);
+        // });
 
-        // Mock schedule data
-        setSchedule([
-          {
-            id: 1,
-            start_time: "2025-02-11T09:00:00Z",
-            end_time: "2025-02-11T10:00:00Z",
-            status: "active"
-          },
-          {
-            id: 2,
-            start_time: "2025-02-11T10:30:00Z",
-            end_time: "2025-02-11T11:30:00Z",
-            status: "active"
-          }
-        ]);
-    }, []);
-
-    useEffect(() => {
-        if (selectedDoctor) {
-            const today = new Date();
-            const nextThreeDays = [];
-            for (let i = 0; i < 4; i++) {
-                const date = new Date();
-                date.setDate(today.getDate() + i);
-                nextThreeDays.push(date.toISOString().split("T")[0]); // Format: YYYY-MM-DD
+        $.ajax({
+            url: 'http://localhost:3000/doctors',
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            success: function(response) {
+                setDoctors(response);
+                console.log(response);
+            },
+            error: function(error) {
+                console.error('There was an error fetching the doctors!', error);
             }
-            
-            const doctorSchedule = schedule.filter(item => 
-                item.doctorId === selectedDoctor.id && nextThreeDays.includes(item.date)
-            );
-
-            setFilteredSchedule(doctorSchedule);
-        }
-    }, [selectedDoctor, schedule]);
+        });
+        
+    }, []);
 
     const handleDoctorClick = (doctor) => {
         setSelectedDoctor(doctor);
+        setSchedule(doctor.schedules || []);
     };
 
     const handleDateChange = (e) => {
@@ -75,10 +56,6 @@ const DoctorManagement = () => {
     const handleEndTimeChange = (e) => {
         setSelectedEndTime(e.target.value);
     };
-    const handleStartTimeHourChange = (e) => {
-        const hour = e.target.value;
-        setSelectedStartTime(`${hour}:${selectedStartTime.split(":")[1]}`);
-    };
 
     const generateTimeOptions = () => {
         const times = [];
@@ -93,23 +70,6 @@ const DoctorManagement = () => {
     };
 
     const timeOptions = generateTimeOptions();
-    
-    
-    const handleStartTimeMinuteChange = (e) => {
-        const minute = e.target.value;
-        setSelectedStartTime(`${selectedStartTime.split(":")[0]}:${minute}`);
-    };
-    
-    const handleEndTimeHourChange = (e) => {
-        const hour = e.target.value;
-        setSelectedEndTime(`${hour}:${selectedEndTime.split(":")[1]}`);
-    };
-    
-    const handleEndTimeMinuteChange = (e) => {
-        const minute = e.target.value;
-        setSelectedEndTime(`${selectedEndTime.split(":")[0]}:${minute}`);
-    };
-    
 
     const handleSaveNewSchedule = () => {
         if (!selectedDate || (!selectedStartTime && !selectedEndTime)) {
@@ -118,7 +78,7 @@ const DoctorManagement = () => {
         }
 
         const newScheduleEntry = {
-            id: schedule.length + 1, // Simple ID generation
+            id: schedule.length + 1, 
             start_time: `${selectedDate}T${selectedStartTime}:00Z`,
             end_time: `${selectedDate}T${selectedEndTime}`,
             status: 1,
@@ -137,7 +97,7 @@ const DoctorManagement = () => {
         setSelectedEndTime("");
         setSelectedStartTime("");
 
-        // Optionally, send the new schedule to the server
+        
         $.post("http://localhost:3000/schedule/create", scheduleEntry, (response) => {
             console.log('New schedule added successfully:', response);
             setSchedule([...schedule, response]);
@@ -146,7 +106,12 @@ const DoctorManagement = () => {
         });
     };
 
+    const addDoctor = function() {
+            
+    }
+
     return (
+        
         <div className="doctor-management">
             <div className="top-view">
                 <button className="back-button" onClick={() => navigate("/staff-management")}>
@@ -158,10 +123,33 @@ const DoctorManagement = () => {
             <div className="mngt-board">
                 <div className="sidebar">
                     <h3>Doctors</h3>
+                    <Link to="/staff/doctors/add" style={{ textDecoration: "none", color: "inherit" }}>
+                        <button onClick={addDoctor}>Add Doctor</button>
+                    </Link>
+                    
                     <ul>
-                        {doctors.map((doctor) => (
+                        {doctors.map((doctor, index) => (
                             <li key={doctor.id} onClick={() => handleDoctorClick(doctor)}>
                                 {doctor.firstName} {doctor.lastName}
+                                {/* <Link 
+                                    to={{
+                                        pathname: "/staff/doctors/doctor/profile",
+                                        state: { doctor: doctor } 
+                                    }} 
+                                    style={{ textDecoration: "none", color: "inherit" }}
+                                    >
+                                    <button>View</button>
+                                </Link> */}
+                                <Link 
+                                    key={index}
+                                    to={{
+                                    pathname: "/staff/doctors/doctor/profile",
+                                    state: { doctor: doctor }
+                                    }} 
+                                    style={{ textDecoration: "none", color: "inherit" }}
+                                >
+                                    <button>View</button>
+                                </Link>
                             </li>
                         ))}
                     </ul>

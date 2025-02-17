@@ -15,8 +15,6 @@ const PatientProfile = () => {
         return <p>Loading patient data...</p>;
     }
 
-    console.log(patient);
-
     return (
         <div className="patient-profile">
             <div className="top-view">

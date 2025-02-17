@@ -10,27 +10,45 @@ const AddAppointment = () => {
   const [doctors, setDoctors] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
 
-  // Search patients as the user types
+  
   useEffect(() => {
     if (patientSearch.length > 1) {
-      $.get(`/api/patients?search=${patientSearch}`, (data) => {
-        setPatients(data);
-      }).fail((err) => console.error("Error fetching patients:", err));
+      console.log(`Searching for patients with: ${patientSearch}`);
+      $.get(`http://localhost:3000/patients/get-patients-by-name?search=${patientSearch}`, (data) => {
+        console.log("Received patients data:", data);
+        if (Array.isArray(data)) {
+          setPatients(data);
+        } else {
+          setPatients([]);
+        }
+      }).fail((err) => {
+        console.error("Error fetching patients:", err);
+        setPatients([]); 
+      });
     } else {
       setPatients([]);
     }
   }, [patientSearch]);
 
-  // Fetch available doctors when a time is selected
+  
   useEffect(() => {
     if (appointmentTime) {
+      console.log(`Fetching doctors available at: ${appointmentTime}`);
       $.get(`/api/doctors?availableAt=${appointmentTime}`, (data) => {
-        setDoctors(data);
-      }).fail((err) => console.error("Error fetching doctors:", err));
+        console.log("Received doctors data:", data);
+        if (Array.isArray(data)) {
+          setDoctors(data);
+        } else {
+          setDoctors([]);
+        }
+      }).fail((err) => {
+        console.error("Error fetching doctors:", err);
+        setDoctors([]); 
+      });
     }
   }, [appointmentTime]);
 
-  // Handle appointment submission
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!selectedPatient || !selectedDoctor || !appointmentTime) {
@@ -53,7 +71,7 @@ const AddAppointment = () => {
     <div className="add-appointment">
       <h2>➕ Add New Appointment</h2>
 
-      {/* Patient Search */}
+
       <div className="form-group">
         <label>Search Patient:</label>
         <input
@@ -62,7 +80,7 @@ const AddAppointment = () => {
           onChange={(e) => setPatientSearch(e.target.value)}
           placeholder="Enter patient name..."
         />
-        {patients.length > 0 && (
+        {Array.isArray(patients) && patients.length > 0 && (
           <ul className="dropdown">
             {patients.map((p) => (
               <li key={p.id} onClick={() => setSelectedPatient(p)}>
@@ -73,10 +91,10 @@ const AddAppointment = () => {
         )}
       </div>
 
-      {/* Selected Patient */}
+
       {selectedPatient && <p>Selected Patient: {selectedPatient.name}</p>}
 
-      {/* Appointment Time */}
+
       <div className="form-group">
         <label>Select Date & Time:</label>
         <input
@@ -86,7 +104,7 @@ const AddAppointment = () => {
         />
       </div>
 
-      {/* Available Doctors */}
+
       <div className="form-group">
         <label>Select Doctor:</label>
         <select
@@ -105,7 +123,7 @@ const AddAppointment = () => {
         </select>
       </div>
 
-      {/* Submit Button */}
+
       <button onClick={handleSubmit}>✅ Save Appointment</button>
     </div>
   );
