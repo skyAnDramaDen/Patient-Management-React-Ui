@@ -1,20 +1,29 @@
 import './ManageAppointments.css';
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import $ from "jquery";
 
 const ManageAppointments = () => {
   const navigate = useNavigate(); 
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
-    const fetchAppointments = async () => {
-      const mockAppointments = [
-        { id: 1, date: "2025-02-15", time: "10:00 AM", doctor: "Dr. Smith", patient: "John Doe" },
-        { id: 2, date: "2025-02-16", time: "2:00 PM", doctor: "Dr. Brown", patient: "Jane Doe" },
-      ];
-      setAppointments(mockAppointments);
-    };
-    fetchAppointments();
+    $.ajax({
+      url: 'http://localhost:3000/appointment',
+      method: 'GET',
+      headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+      },
+      success: function(response) {
+          setAppointments(response);
+          console.log(response);
+      },
+      error: function(error) {
+          console.error('There was an error fetching the appointments!', error);
+      }
+  });
+
   }, []);
 
   return (
@@ -45,8 +54,8 @@ const ManageAppointments = () => {
                 <tr key={appt.id}>
                   <td>{appt.date}</td>
                   <td>{appt.time}</td>
-                  <td>{appt.doctor}</td>
-                  <td>{appt.patient}</td>
+                  <td>DR. {appt.Doctor.firstName}</td>
+                  <td>{appt.Patient.firstName + " " + appt.Patient.lastName}</td>
                 </tr>
               ))
             ) : (

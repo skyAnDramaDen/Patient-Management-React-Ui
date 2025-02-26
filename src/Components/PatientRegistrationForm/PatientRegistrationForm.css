@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+.patient-registration {
+  padding: 30px;
+}
+
 .patient-registration-form {
   padding: 30px;
   background: #fff;
@@ -12,6 +16,8 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   /* max-width: 800px; */
   margin: auto;
+  max-width: 1200px;
+  text-align: center;
 }
 
 /* Form Layout */

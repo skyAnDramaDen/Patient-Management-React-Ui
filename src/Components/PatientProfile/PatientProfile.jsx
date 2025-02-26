@@ -65,7 +65,9 @@ const PatientProfile = () => {
                 <h3 className="section-title">Medical History</h3>
                 <div className="section-content">
                     {patient.chronicConditions && <p><strong>Chronic Conditions:</strong> {patient.chronicConditions.join(", ")}</p>}
-                    {patient.allergies && <p><strong>Allergies:</strong> {patient.allergies.join(", ")}</p>}
+                    {patient.allergies && <p><strong>Allergies:</strong> {() => {
+                        return patient.allergies.join(", ")
+                    }}</p>}
                     {patient.medications && <p><strong>Medications:</strong> {patient.medications.join(", ")}</p>}
                     {patient.pastSurgeries && <p><strong>Past Surgeries:</strong> {patient.pastSurgeries.join(", ")}</p>}
                     {patient.familyMedicalHistory && <p><strong>Family Medical History:</strong> {patient.familyMedicalHistory}</p>}

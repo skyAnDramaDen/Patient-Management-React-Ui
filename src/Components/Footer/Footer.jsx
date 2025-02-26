@@ -11,14 +11,12 @@ export default function Footer() {
     <div className='footer'>
         <div className="footer-logo">
             {/* <img src={footer_logo} alt="" /> */}
-            <p>Swif</p>
+            <p>MediLife</p>
         </div>
         <ul className="footer-links">
-            <li>Company</li>
-            <li>Products</li>
-            <li>Offices</li>
-            <li>About</li>
-            <li>Contact</li>
+            <li>Contact Us</li>
+            <li>About Us</li>
+            <li>Services</li>
         </ul>
         <div className="footer-social-icon">
             <div className="footer-icons-container">

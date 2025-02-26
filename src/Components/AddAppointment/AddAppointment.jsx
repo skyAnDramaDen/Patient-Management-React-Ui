@@ -1,57 +1,84 @@
 import './AddAppointment.css';
 import React, { useState, useEffect } from "react";
 import $ from "jquery";
+import { useNavigate } from 'react-router-dom';
+import PageHeader from '../PageHeader/PageHeader';
 
 const AddAppointment = () => {
+  const navigate = useNavigate();
   const [patientSearch, setPatientSearch] = useState("");
   const [patients, setPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
+  const [appointmentDate, setAppointmentDate] = useState("");
   const [appointmentTime, setAppointmentTime] = useState("");
   const [doctors, setDoctors] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
 
-  
   useEffect(() => {
     if (patientSearch.length > 1) {
-      console.log(`Searching for patients with: ${patientSearch}`);
-      $.get(`http://localhost:3000/patients/get-patients-by-name?search=${patientSearch}`, (data) => {
-        console.log("Received patients data:", data);
-        if (Array.isArray(data)) {
-          setPatients(data);
-        } else {
+      // console.log(`Searching for patients with: ${patientSearch}`);
+      $.ajax({
+        url: `http://localhost:3000/patients/get-patients-by-name?search=${patientSearch}`,
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+        },
+        success: function (data) {
+          // console.log(data);
+          if (Array.isArray(data)) {
+            setPatients(data);
+            // console.log(patients);
+          } else {
+            setPatients([]);
+          }
+        },
+        error: function (err) {
+          console.error("Error fetching patients:", err);
           setPatients([]);
         }
-      }).fail((err) => {
-        console.error("Error fetching patients:", err);
-        setPatients([]); 
       });
     } else {
       setPatients([]);
     }
   }, [patientSearch]);
 
-  
   useEffect(() => {
-    if (appointmentTime) {
-      console.log(`Fetching doctors available at: ${appointmentTime}`);
-      $.get(`/api/doctors?availableAt=${appointmentTime}`, (data) => {
-        console.log("Received doctors data:", data);
-        if (Array.isArray(data)) {
-          setDoctors(data);
-        } else {
-          setDoctors([]);
+    // console.log(appointmentDate);
+    if (appointmentDate != null) {
+      $.ajax({
+        url: `http://localhost:3000/doctors/scheduled-for/${appointmentDate}`,
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+        },
+        success: function (data) {
+          console.log(data);
+          if (Array.isArray(data)) {
+            setDoctors(data);
+          } else {
+            setDoctors([]);
+          }
+          
+        },
+        error: function (err) {
+          console.error("Error fetching patients:", err);
+          setPatients([]);
         }
-      }).fail((err) => {
-        console.error("Error fetching doctors:", err);
-        setDoctors([]); 
       });
     }
-  }, [appointmentTime]);
+  }, [appointmentDate])
 
-  
+  const handlePatientSelect = (patient) => {
+    setSelectedPatient(patient);
+    setPatientSearch("");
+    setPatients([]);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!selectedPatient || !selectedDoctor || !appointmentTime) {
+    if (!selectedPatient || !selectedDoctor || !appointmentDate || !appointmentTime) {
       alert("Please fill all fields!");
       return;
     }
@@ -59,18 +86,34 @@ const AddAppointment = () => {
     const appointmentData = {
       patientId: selectedPatient.id,
       doctorId: selectedDoctor.id,
-      appointmentTime,
+      time: appointmentTime,
+      date: appointmentDate,
+      status: "scheduled"
     };
 
-    $.post("/api/appointments", appointmentData)
-      .done(() => alert("Appointment created successfully!"))
-      .fail((err) => console.error("Error creating appointment:", err));
+    $.ajax({
+      url: 'http://localhost:3000/appointment/create',
+      method: 'POST',
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      },
+      data: JSON.stringify(appointmentData),
+      success: function(response) {
+        console.log('Appointment created successfully!', response);
+        navigate('/appointment-details', { state: { appointment: response } });
+        // navigate('/doctor-profile', { state: { patient: response } });
+      },
+      error: function(error) {
+        console.error('There was an error creating the appointment!', error);
+        alert('Failed to create appointment.');
+      }
+    });
   };
 
   return (
     <div className="add-appointment">
-      <h2>➕ Add New Appointment</h2>
-
+      <PageHeader  title="➕ Add New Appointment" />
 
       <div className="form-group">
         <label>Search Patient:</label>
@@ -83,27 +126,42 @@ const AddAppointment = () => {
         {Array.isArray(patients) && patients.length > 0 && (
           <ul className="dropdown">
             {patients.map((p) => (
-              <li key={p.id} onClick={() => setSelectedPatient(p)}>
-                {p.name}
+              <li key={p.id} onClick={() => handlePatientSelect(p)}>
+                {p.firstName + " " + p.lastName}
               </li>
             ))}
           </ul>
         )}
+        {Array.isArray(patients) && patients.length === 0 && patientSearch.length > 1 && (
+          <ul className="dropdown">
+            <li>No patients found</li>
+          </ul>
+        )}
       </div>
 
-
-      {selectedPatient && <p>Selected Patient: {selectedPatient.name}</p>}
-
+      {selectedPatient && (
+        <div className="selected-patient">
+          <p>Patient Name: {selectedPatient.firstName + " " + selectedPatient.lastName}</p>
+        </div>
+      )}
 
       <div className="form-group">
-        <label>Select Date & Time:</label>
+        <label>Select Date:</label>
         <input
-          type="datetime-local"
+          type="date"
+          value={appointmentDate}
+          onChange={(e) => setAppointmentDate(e.target.value)}
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Select Time:</label>
+        <input
+          type="time"
           value={appointmentTime}
           onChange={(e) => setAppointmentTime(e.target.value)}
         />
       </div>
-
 
       <div className="form-group">
         <label>Select Doctor:</label>
@@ -117,12 +175,11 @@ const AddAppointment = () => {
           <option value="">Select a Doctor</option>
           {doctors.map((doc) => (
             <option key={doc.id} value={doc.id}>
-              {doc.name} - {doc.specialty}
+              Dr. {doc.firstName} - {doc.specialization}
             </option>
           ))}
         </select>
       </div>
-
 
       <button onClick={handleSubmit}>✅ Save Appointment</button>
     </div>

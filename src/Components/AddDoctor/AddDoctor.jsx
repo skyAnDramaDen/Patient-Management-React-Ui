@@ -49,29 +49,40 @@ const AddDoctorForm = () => {
         user: newUser
     }
 
-    $.post("http://localhost:3000/doctors/create", payload, (response) => {
-      console.log("Doctor created successfully", response);
-      navigate("/staff/doctors");
-    }).fail((error) => {
-      console.error("Error creating doctor", error);
+    $.ajax({
+      url: 'http://localhost:3000/doctors/create',
+      method: 'POST',
+      headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+      },
+      data: JSON.stringify(payload),
+      success: function(response) {
+          console.log('Doctor created successfully!', response);
+          navigate('/doctor-profile', { state: { patient: response } });
+      },
+      error: function(error) {
+          console.error('There was an error creating the patient!', error);
+          alert('Failed to create patient.');
+      }
     });
 
     setDoctor({
-      firstName: "",
-      lastName: "",
-      middleName: "",
-      dateOfBirth: "",
-      gender: "",
-      email: "",
-      phoneNumber: "",
-      addressLine1: "",
-      addressLine2: "",
-      city: "",
-      state: "",
-      postalCode: "",
-      country: "",
-      specialization: "",
-      medicalLicenseNumber: "",
+      // firstName: "",
+      // lastName: "",
+      // middleName: "",
+      // dateOfBirth: "",
+      // gender: "",
+      // email: "",
+      // phoneNumber: "",
+      // addressLine1: "",
+      // addressLine2: "",
+      // city: "",
+      // state: "",
+      // postalCode: "",
+      // country: "",
+      // specialization: "",
+      // medicalLicenseNumber: "",
       role: "doctor"
     });
   };
@@ -90,7 +101,12 @@ const AddDoctorForm = () => {
         <input type="text" name="lastName" placeholder="Last Name" value={doctor.lastName} onChange={handleChange} required />
         <input type="text" name="middleName" placeholder="Middle Name" value={doctor.middleName} onChange={handleChange} />
         <input type="date" name="dateOfBirth" value={doctor.dateOfBirth} onChange={handleChange} required />
-        <input type="text" name="gender" placeholder="Gender" value={doctor.gender} onChange={handleChange} required />
+        <select name="role" value={doctor.gender} onChange={handleChange} required>
+          <option value="select" disabled>Select</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
         <input type="email" name="email" placeholder="Email" value={doctor.email} onChange={handleChange} required />
         <input type="text" name="phoneNumber" placeholder="Phone Number" value={doctor.phoneNumber} onChange={handleChange} required />
         <input type="text" name="addressLine1" placeholder="Address Line 1" value={doctor.addressLine1} onChange={handleChange} required />

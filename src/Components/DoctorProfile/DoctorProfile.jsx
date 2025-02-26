@@ -1,93 +1,214 @@
-import "./DoctorProfile.css";
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import $ from "jquery";
 
 const DoctorProfile = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    console.log(location);
-    const { doctor } = location.state || {};
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [doctor, setDoctor] = useState(null);
+  const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+  const [formData, setFormData] = useState({});
 
-    if (!doctor) {
-        return <div className="top-view">
-        <button className="back-button" onClick={() => navigate("/staff/doctors")}>
-            🔙 Back
-        </button>
-        <h1>Doctor Profile</h1>
-        <p>No doctor data available.</p>
-    </div>;
-        
-        
-        
+  useEffect(() => {
+    if (location.state && location.state.doctor) {
+      setDoctor(location.state.doctor);
+      setFormData(location.state.doctor); 
+    } else {
+      console.error("No doctor data passed in location state");
+      navigate("/staff/doctors"); 
     }
+  }, [location, navigate]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    setIsSaveDisabled(false);
+  };
+
+  const handleSave = () => {
+    $.ajax({
+      url: `http://localhost:3000/doctors/doctor/update/${doctor.id}`,
+      method: 'PUT',
+      headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+      },
+      data: JSON.stringify(formData),
+      success: function(response) {
+          console.log('Doctor updated successfully!', response);
+          navigate('/staff/doctor/profile', { state: { doctor: response } });
+      },
+      error: function(error) {
+          console.error('There was an error creating the patient!', error);
+          alert('Failed to create patient.');
+      }
+    });
+    console.log("Saving doctor data:", formData);
+    
+    setIsSaveDisabled(true);
+    alert("Doctor details saved successfully!");
+  };
+
+  if (!location.state) {
+    return <p>No state passed</p>;
+  }
+
+  if (!doctor) {
+    return <p>Loading doctor data...</p>;
+  }
+
   return (
-    <div className="doctor-profile">
-      <div className="top-view">
-                <button className="back-button" onClick={() => navigate("/staff/doctors")}>
-                    🔙 Back
-                </button>
-                <h1>Doctor Profile</h1>
-            </div>
-      <div className="doctor-info">
-        <p>
-          <strong>Name:</strong> {doctor.firstName}{" "}
-          {doctor.middleName && `${doctor.middleName} `}{doctor.lastName}
-        </p>
-        <p>
-          <strong>Date of Birth:</strong>{" "}
-          {new Date(doctor.dateOfBirth).toLocaleDateString()}
-        </p>
-        <p>
-          <strong>Gender:</strong> {doctor.gender}
-        </p>
-        <p>
-          <strong>Email:</strong> {doctor.email}
-        </p>
-        <p>
-          <strong>Phone Number:</strong> {doctor.phoneNumber}
-        </p>
+    <div>
+      <h1>Doctor Profile</h1>
+      <form>
         <div>
-          <h3>Address</h3>
-          <p>{doctor.addressLine1}</p>
-          {doctor.addressLine2 && <p>{doctor.addressLine2}</p>}
-          <p>
-            {doctor.city}, {doctor.state} {doctor.postalCode}
-          </p>
-          <p>{doctor.country}</p>
+          <label>First Name:</label>
+          <input
+            type="text"
+            name="firstName"
+            value={formData.firstName || ''}
+            onChange={handleInputChange}
+          />
         </div>
-        <p>
-          <strong>Specialization:</strong> {doctor.specialization}
-        </p>
-        <p>
-          <strong>Medical License Number:</strong> {doctor.medicalLicenseNumber}
-        </p>
-      </div>
+        <div>
+          <label>Last Name:</label>
+          <input
+            type="text"
+            name="lastName"
+            value={formData.lastName || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Middle Name:</label>
+          <input
+            type="text"
+            name="middleName"
+            value={formData.middleName || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Date of Birth:</label>
+          <input
+            type="date"
+            name="dateOfBirth"
+            value={formData.dateOfBirth || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Gender:</label>
+          <input
+            type="text"
+            name="gender"
+            value={formData.gender || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Phone Number:</label>
+          <input
+            type="text"
+            name="phoneNumber"
+            value={formData.phoneNumber || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Address Line 1:</label>
+          <input
+            type="text"
+            name="addressLine1"
+            value={formData.addressLine1 || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Address Line 2:</label>
+          <input
+            type="text"
+            name="addressLine2"
+            value={formData.addressLine2 || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>City:</label>
+          <input
+            type="text"
+            name="city"
+            value={formData.city || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>State:</label>
+          <input
+            type="text"
+            name="state"
+            value={formData.state || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Postal Code:</label>
+          <input
+            type="text"
+            name="postalCode"
+            value={formData.postalCode || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Country:</label>
+          <input
+            type="text"
+            name="country"
+            value={formData.country || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Specialization:</label>
+          <input
+            type="text"
+            name="specialization"
+            value={formData.specialization || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Medical License Number:</label>
+          <input
+            type="text"
+            name="medicalLicenseNumber"
+            value={formData.medicalLicenseNumber || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <button
+          type="button"
+          onClick={handleSave}
+          disabled={isSaveDisabled}
+        >
+          Save
+        </button>
+      </form>
     </div>
   );
-};
-
-DoctorProfile.propTypes = {
-  doctor: PropTypes.shape({
-    firstName: PropTypes.string.isRequired,
-    middleName: PropTypes.string,
-    lastName: PropTypes.string.isRequired,
-    dateOfBirth: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.instanceOf(Date)
-    ]).isRequired,
-    gender: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    phoneNumber: PropTypes.string.isRequired,
-    addressLine1: PropTypes.string.isRequired,
-    addressLine2: PropTypes.string,
-    city: PropTypes.string.isRequired,
-    state: PropTypes.string.isRequired,
-    postalCode: PropTypes.string.isRequired,
-    country: PropTypes.string.isRequired,
-    specialization: PropTypes.string.isRequired,
-    medicalLicenseNumber: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 export default DoctorProfile;

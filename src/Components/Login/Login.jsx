@@ -16,9 +16,6 @@ const Login = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       const token = localStorage.getItem("token");
-      if (token) {
-        console.log("Structured", token);
-      }
       // setIsLoggedIn(!!token);
     }, 3000);
     return () => clearTimeout(timer);
@@ -29,10 +26,8 @@ const Login = () => {
     setError('');
 
     $.post('http://localhost:3000/login', { username, password }, function(response) {
-      login(response.token);
-      // localStorage.setItem('token', response.token);
-      
-      console.log('Login successful:', response.message);
+      login(response.token, response.user.role, response.user);
+      // console.log('Login successful:', response.message);
     }).fail(function(error) {
       console.error('Login error:', error.responseJSON ? error.responseJSON.message : error.statusText);
       setError('Invalid credentials. Please try again.');

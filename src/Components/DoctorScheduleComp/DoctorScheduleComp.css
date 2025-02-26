@@ -1,0 +1,67 @@
+.doctor-schedules, .appointments {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    color: #333;
+    font-family: Arial, sans-serif;
+    width: 500px;
+  }
+  
+  .doctor-schedules h2,  .appointments h2  {
+    color: #265A93;
+    margin-bottom: 16px;
+  }
+  
+  .schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .schedule-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+  }
+  
+  .schedule-item h3 {
+    margin: 0;
+    color: #265A93;
+  }
+  
+  .schedule-item p {
+    margin: 4px 0;
+  }
+  
+  .outer-container {
+    display: flex;
+    justify-content: center;
+    
+  }
+
+  .edit-button {
+    background-color: transparent;
+    color: black;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+    transition: background-color 0.3s, box-shadow 0.3s;
+    border: 1px solid #0056b3;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.edit-button:active {
+    background-color: #004080;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(2px);
+}

@@ -3,6 +3,7 @@ import './ViewPatients.css';
 import PatientCard from '../PatientCard/PatientCard';
 import React, { useState, useEffect } from "react";
 import $ from "jquery";
+import PageHeader from '../PageHeader/PageHeader';
 
 const ViewPatients = () => {
   const navigate = useNavigate();
@@ -12,13 +13,30 @@ const ViewPatients = () => {
 
   useEffect(() => {
     const fetchPatients = () => {
-      $.get('http://localhost:3000/patients', (data) => {
-        setPatients(data);
-        setLoading(false);
-      }).fail((err) => {
-        setError('Failed to fetch patients');
-        setLoading(false);
-      });
+      // $.get('http://localhost:3000/patients', (data) => {
+      //   setPatients(data);
+      //   setLoading(false);
+      // }).fail((err) => {
+      //   setError('Failed to fetch patients');
+      //   setLoading(false);
+      // });
+
+      $.ajax({
+        url: 'http://localhost:3000/patients',
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+        },
+        success: function(response) {
+          setPatients(response);
+          setLoading(false);
+        },
+        error: function(error) {
+          setError('Failed to fetch patients');
+          setLoading(false);
+        }
+    });
     };
 
     fetchPatients();
@@ -30,15 +48,7 @@ const ViewPatients = () => {
 
   return (
     <div className="view-patients">
-      <div className='top-view'>
-        <button
-            className="back-button"
-            onClick={() => navigate("/patient-management")}
-        >
-            🔙 Back
-        </button>
-        <h2>List of Patients</h2>
-      </div>
+      <PageHeader  title="Patients List" backPath="/patient-management"  />
       <div className="patient-list">
         {patients.map((patient) => (
             <div key={patient.id} onClick={() => handlePatientClick(patient)}>

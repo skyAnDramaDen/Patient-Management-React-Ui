@@ -1,0 +1,14 @@
+.no-bullets {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .no-bullets li {
+    margin-bottom: 1em; 
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1em;
+  }
+
+  .view-doctor {
+    padding: 30px;
+  }

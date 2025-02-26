@@ -3,22 +3,15 @@ import './PatientManagement.css';
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./PatientManagement.css";
+import PageHeader from '../PageHeader/PageHeader';
 
 const PatientManagement = () => {
   const navigate = useNavigate(); 
 
   return (
     <div className="patient-management">
-      
-      <div className='top-view'>
-        <button
-            className="back-button"
-            onClick={() => navigate("/")}
-        >
-            🔙 Back
-        </button>
-        <h2>Patient Management</h2>
-      </div>
+
+      <PageHeader  title="Patient Management" backPath="/"  />
 
       <div className="patient-actions">
         <Link to="/patients" className="action-button">📋 View Patients</Link>

@@ -1,21 +1,14 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./StaffManagement.css";
+import PageHeader from "../PageHeader/PageHeader";
 
 const StaffManagement = () => {
     const navigate = useNavigate(); 
   return (
     <div className="staff-management">
-        <div className='top-view'>
-        <button
-            className="back-button"
-            onClick={() => navigate("/")}
-        >
-            🔙 Back
-        </button>
-        <h2>Staff Management</h2>
-      </div>
-      
+
+      <PageHeader  title="Staff Management" backPath="/"  />
 
       <div className="staff-actions">
         <Link to="/staff/doctors" className="staff-button">👨‍⚕️ Doctors</Link>

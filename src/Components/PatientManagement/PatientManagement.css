@@ -13,12 +13,12 @@
     width: 100px;
   }
   
-  .patient-management h2 {
+  /* .patient-management h2 {
     font-size: 32px;
     font-weight: 600;
     color: #265a93;
-    margin-bottom: 30px;
-  }
+    margin-bottom: 30px; 
+  } */
   
   /* Action buttons section */
   .patient-actions {

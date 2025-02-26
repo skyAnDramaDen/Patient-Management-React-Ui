@@ -2,6 +2,7 @@ import "./DoctorManagement.css";
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import $ from 'jquery';
+import PageHeader from "../PageHeader/PageHeader";
 
 const DoctorManagement = () => {
     const navigate = useNavigate();
@@ -12,14 +13,28 @@ const DoctorManagement = () => {
     const [selectedStartTime, setSelectedStartTime] = useState("");
     const [selectedEndTime, setSelectedEndTime] = useState("");
 
-    useEffect(() => {
-        // $.get('http://localhost:3000/doctors', (response) => {
-        //     setDoctors(response);
-        //     console.log(response);
-        // }).fail((error) => {
-        //     console.error('There was an error fetching the doctors!', error);
-        // });
+    // useEffect(() => {
+    //     const now = new Date(Date.now());
+        
+    //     $.ajax({
+    //         url: 'http://localhost:3000/doctors',
+    //         method: 'GET',
+    //         headers: {
+    //             "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    //             "Content-Type": "application/json"
+    //         },
+    //         success: function(response) {
+    //             setDoctors(response);
+    //         },
+    //         error: function(error) {
+    //             console.error('There was an error fetching the doctors!', error);
+    //         }
+    //     });
+        
+    // }, []);
 
+    useEffect(() => {
+        const now = new Date(Date.now());
         $.ajax({
             url: 'http://localhost:3000/doctors',
             method: 'GET',
@@ -27,16 +42,15 @@ const DoctorManagement = () => {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
             },
+            data: JSON.stringify(),
             success: function(response) {
                 setDoctors(response);
-                console.log(response);
             },
             error: function(error) {
                 console.error('There was an error fetching the doctors!', error);
             }
         });
-        
-    }, []);
+    }, [selectedDate])
 
     const handleDoctorClick = (doctor) => {
         setSelectedDoctor(doctor);
@@ -69,7 +83,7 @@ const DoctorManagement = () => {
         return times;
     };
 
-    const timeOptions = generateTimeOptions();
+    const timeOptions = React.useMemo(() => generateTimeOptions(), []);
 
     const handleSaveNewSchedule = () => {
         if (!selectedDate || (!selectedStartTime && !selectedEndTime)) {
@@ -82,27 +96,40 @@ const DoctorManagement = () => {
             start_time: `${selectedDate}T${selectedStartTime}:00Z`,
             end_time: `${selectedDate}T${selectedEndTime}`,
             status: 1,
-            doctorId: selectedDoctor.id
+            doctorId: selectedDoctor.id,
+            date: selectedDate
         };
 
         const scheduleEntry = {
-            start_time: `${selectedDate}T${selectedStartTime}:00Z`,
-            end_time: `${selectedDate}T${selectedEndTime}`,
+            startTime: `${selectedDate}T${selectedStartTime}:00Z`,
+            endTime: `${selectedDate}T${selectedEndTime}`,
             status: 1,
-            doctorId: selectedDoctor.id
+            doctorId: selectedDoctor.id,
+            date: selectedDate
         };
 
-        setSchedule([...schedule, newScheduleEntry]);
-        setSelectedDate("");
-        setSelectedEndTime("");
-        setSelectedStartTime("");
+        // setSchedule([...schedule, newScheduleEntry]);
 
-        
-        $.post("http://localhost:3000/schedule/create", scheduleEntry, (response) => {
-            console.log('New schedule added successfully:', response);
-            setSchedule([...schedule, response]);
-        }).fail((error) => {
-            console.error('Error adding new schedule', error);
+        $.ajax({
+            url: 'http://localhost:3000/schedule/create',
+            method: 'POST',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            data: JSON.stringify(scheduleEntry),
+            success: function(response) {
+                console.log('New schedule added successfully:', response);
+                setSchedule([...schedule, response]);
+
+                setSelectedDate("");
+                setSelectedEndTime("");
+                setSelectedStartTime("");
+            },
+            error: function(error) {
+                console.error('Error adding new schedule', error);
+                alert('Failed to add schedule.');
+            }
         });
     };
 
@@ -113,39 +140,23 @@ const DoctorManagement = () => {
     return (
         
         <div className="doctor-management">
-            <div className="top-view">
-                <button className="back-button" onClick={() => navigate("/staff-management")}>
-                    🔙 Back
-                </button>
-                <h2>Doctor Management</h2>
-            </div>
+            <PageHeader  title="Doctor Management" backPath="/staff-management"  />
 
             <div className="mngt-board">
                 <div className="sidebar">
                     <h3>Doctors</h3>
+                    <button>All Schedules</button>
                     <Link to="/staff/doctors/add" style={{ textDecoration: "none", color: "inherit" }}>
-                        <button onClick={addDoctor}>Add Doctor</button>
+                        <button onClick={addDoctor}>➕ Add Doctor</button>
                     </Link>
                     
                     <ul>
                         {doctors.map((doctor, index) => (
                             <li key={doctor.id} onClick={() => handleDoctorClick(doctor)}>
                                 {doctor.firstName} {doctor.lastName}
-                                {/* <Link 
-                                    to={{
-                                        pathname: "/staff/doctors/doctor/profile",
-                                        state: { doctor: doctor } 
-                                    }} 
-                                    style={{ textDecoration: "none", color: "inherit" }}
-                                    >
-                                    <button>View</button>
-                                </Link> */}
                                 <Link 
-                                    key={index}
-                                    to={{
-                                    pathname: "/staff/doctors/doctor/profile",
-                                    state: { doctor: doctor }
-                                    }} 
+                                    to="/view-doctor-schedule"
+                                    state={{ doctor }} 
                                     style={{ textDecoration: "none", color: "inherit" }}
                                 >
                                     <button>View</button>
@@ -168,6 +179,7 @@ const DoctorManagement = () => {
                         <p>Select a doctor to see the details</p>
                     )}
 
+                        
                     <div className="schedule">
                         <h3>Add New Schedule</h3>
                         <div>
@@ -205,14 +217,16 @@ const DoctorManagement = () => {
                                     <th>Start Time</th>
                                     <th>End Time</th>
                                     <th>Status</th>
+                                    <th>Date</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {schedule.map((item) => (
                                     <tr key={item.id}>
-                                        <td>{new Date(item.start_time).toLocaleString()}</td>
-                                        <td>{new Date(item.end_time).toLocaleString()}</td>
+                                        <td>{item.startTime}</td>
+                                        <td>{item.endTime}</td>
                                         <td>{item.status}</td>
+                                        <td>{item.date}</td>
                                     </tr>
                                 ))}
                             </tbody>
