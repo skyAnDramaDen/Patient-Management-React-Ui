@@ -13,13 +13,13 @@ const Login = () => {
 
   const navigate = useNavigate(); 
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const token = localStorage.getItem("token");
-      // setIsLoggedIn(!!token);
-    }, 3000);
-    return () => clearTimeout(timer);
-  });
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     const token = localStorage.getItem("token");
+  //     // setIsLoggedIn(!!token);
+  //   }, 3000);
+  //   return () => clearTimeout(timer);
+  // });
   
   const loginUser = (username, password) => {
     setLoading(true);

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import $ from "jquery";
+import "./DoctorProfile.css";
+import PageHeader from '../PageHeader/PageHeader';
 
 const DoctorProfile = () => {
   const location = useLocation();
@@ -15,7 +17,7 @@ const DoctorProfile = () => {
       setFormData(location.state.doctor); 
     } else {
       console.error("No doctor data passed in location state");
-      navigate("/staff/doctors"); 
+      // navigate("/staff/doctors"); 
     }
   }, [location, navigate]);
 
@@ -39,11 +41,11 @@ const DoctorProfile = () => {
       data: JSON.stringify(formData),
       success: function(response) {
           console.log('Doctor updated successfully!', response);
-          navigate('/staff/doctor/profile', { state: { doctor: response } });
+          navigate('/doctor-profile', { state: { doctor: response } });
       },
       error: function(error) {
-          console.error('There was an error creating the patient!', error);
-          alert('Failed to create patient.');
+          console.error('There was an error updating the doctor!', error);
+          alert('Failed to update doctor.');
       }
     });
     console.log("Saving doctor data:", formData);
@@ -61,8 +63,8 @@ const DoctorProfile = () => {
   }
 
   return (
-    <div>
-      <h1>Doctor Profile</h1>
+    <div className='doctor-profile'>
+      <PageHeader title="Doctor Profile" />
       <form>
         <div>
           <label>First Name:</label>

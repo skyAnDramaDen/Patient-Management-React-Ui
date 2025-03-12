@@ -28,6 +28,7 @@
   text-align: start;
   padding: 10px;
   border-bottom: 2px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+  padding-left: 0;
 }
 
 /* Menu List */

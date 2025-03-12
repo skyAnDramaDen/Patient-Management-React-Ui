@@ -68,29 +68,29 @@ const AddDoctorForm = () => {
     });
 
     setDoctor({
-      // firstName: "",
-      // lastName: "",
-      // middleName: "",
-      // dateOfBirth: "",
-      // gender: "",
-      // email: "",
-      // phoneNumber: "",
-      // addressLine1: "",
-      // addressLine2: "",
-      // city: "",
-      // state: "",
-      // postalCode: "",
-      // country: "",
-      // specialization: "",
-      // medicalLicenseNumber: "",
+      firstName: "",
+      lastName: "",
+      middleName: "",
+      dateOfBirth: "",
+      gender: "",
+      email: "",
+      phoneNumber: "",
+      addressLine1: "",
+      addressLine2: "",
+      city: "",
+      state: "",
+      postalCode: "",
+      country: "",
+      specialization: "",
+      medicalLicenseNumber: "",
       role: "doctor"
     });
   };
 
   return (
-    <div>
+    <div className="add-doctor">
       <div className="top-view">
-        <button className="back-button" onClick={() => navigate("/staff/doctors")}>
+        <button className="back-button" onClick={() => navigate(-1)}>
           🔙 Back
         </button>
         <h2>Add Doctor</h2>
@@ -122,10 +122,7 @@ const AddDoctorForm = () => {
         <input type="text" name="password" placeholder="Password" value={newUser.password} onChange={handleUserData} required />
         <label>Role:</label>
         <select name="role" value={newUser.role} onChange={handleUserData} required>
-          <option value="super-admin">Super Admin</option>
-          <option value="admin">Admin</option>
           <option value="doctor">Doctor</option>
-          <option value="nurse">Nurse</option>
         </select>
         <button type="submit">Add Doctor</button>
       </form>

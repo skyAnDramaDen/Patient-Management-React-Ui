@@ -1,8 +1,8 @@
 /* PatientCard.css */
 .patient-card {
     border: 2px solid #265A93; /* Matching your navbar color */
-    padding: 10px; /* Reduced padding */
-    width: 180px; /* Adjusted width for desired layout */
+    padding: 5px; /* Reduced padding */
+    width: 175px; /* Adjusted width for desired layout */
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);

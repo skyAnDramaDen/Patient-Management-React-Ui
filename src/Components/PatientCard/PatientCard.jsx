@@ -19,7 +19,7 @@ export default function PatientCard(props) {
 
       <Link
           to={{
-              pathname: "/patient-profile",
+              pathname: "/patient/edit",
               state: { patient }
           }}
           style={{ textDecoration: "none", color: "inherit" }}

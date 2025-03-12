@@ -54,8 +54,8 @@ const ManageAppointments = () => {
                 <tr key={appt.id}>
                   <td>{appt.date}</td>
                   <td>{appt.time}</td>
-                  <td>DR. {appt.Doctor.firstName}</td>
-                  <td>{appt.Patient.firstName + " " + appt.Patient.lastName}</td>
+                  {/* <td>DR. {appt.Doctor.firstName}</td> */}
+                  {/* <td>{appt.Patient.firstName + " " + appt.Patient.lastName}</td> */}
                 </tr>
               ))
             ) : (

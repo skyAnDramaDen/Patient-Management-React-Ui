@@ -21,6 +21,9 @@ const DoctorMenu = () => (
       <Link to="/settings" style={{ textDecoration: "none", color: "inherit" }}>
         <li className="menu-item">SETTINGS</li>
       </Link>
+      <Link to="/doctor-chat" style={{ textDecoration: "none", color: "inherit" }}>
+        <li className="menu-item">CHAT</li>
+      </Link>
       <li className="menu-item">LOGOUT</li>
     </ul>
   </div>

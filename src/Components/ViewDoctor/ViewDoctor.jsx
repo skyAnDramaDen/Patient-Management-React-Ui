@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import $ from "jquery";
-import './ViewDoctor.css'; // Import the CSS file
+import './ViewDoctor.css';
 import DoctorScheduleComp from '../DoctorScheduleComp/DoctorScheduleComp';
 import PageHeader from '../PageHeader/PageHeader';
 
@@ -11,8 +11,6 @@ const ViewDoctor = () => {
   const [doctor, setDoctor] = useState(null);
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
-
-//   console.log(location);
 
   useEffect(() => {
     if (location.state && location.state.doctor) {
@@ -64,16 +62,6 @@ const ViewDoctor = () => {
       {schedules.length === 0 ? (
         <p>No schedules available for this doctor.</p>
       ) : (
-        // <ul className="no-bullets"> {/* Apply the CSS class */}
-        //   {schedules.map((schedule) => (
-        //     <li key={schedule.id}>
-        //       <strong>Date:</strong> {schedule.date} <br />
-        //       <strong>Time:</strong> {schedule.time} <br />
-        //       <strong>Patient:</strong> {schedule.patientName} <br />
-        //       <strong>Notes:</strong> {schedule.notes}
-        //     </li>
-        //   ))}
-        // </ul>
         <DoctorScheduleComp doctor={ doctor }/>
       )}
     </div>

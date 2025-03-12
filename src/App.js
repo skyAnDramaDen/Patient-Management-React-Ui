@@ -14,7 +14,6 @@ import DoctorMenu from './Components/DoctorMenu/DoctorMenu';
 
 const AppContent = () => {
   const { isLoggedIn, role } = useContext(AuthContext);
-  // console.log(role);
 
   const renderContent = () => {
     switch (role) {

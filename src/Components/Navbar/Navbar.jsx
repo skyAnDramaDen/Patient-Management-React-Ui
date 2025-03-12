@@ -7,7 +7,7 @@ import { AuthContext } from "../../Authcontext";
 
 const NavBar = () => {
 
-  const { logout } = useContext(AuthContext);
+  const { logout, role } = useContext(AuthContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -29,6 +29,7 @@ const NavBar = () => {
     <div className="nav-logo">
       <p>MediLife</p>
     </div>
+    <p>{role}</p>
     <ul className="nav-menu">
       <li>
         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>Home</Link>
@@ -47,13 +48,11 @@ const NavBar = () => {
     {isLoggedIn ? (
       <button onClick={handleLogout}>Logout</button>
     ) : (
-      <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>
-        <button>Login</button>
+      <Link to="/login" style={{ textDecoration: 'none', color: 'white' }}>
+        Login
       </Link>
     )
-  }
-      
-      
+  }   
     </div>
   </div>
   )

@@ -44,13 +44,14 @@ const DoctorManagement = () => {
             },
             data: JSON.stringify(),
             success: function(response) {
+                console.log(response);
                 setDoctors(response);
             },
             error: function(error) {
                 console.error('There was an error fetching the doctors!', error);
             }
         });
-    }, [selectedDate])
+    }, [])
 
     const handleDoctorClick = (doctor) => {
         setSelectedDoctor(doctor);
@@ -84,6 +85,8 @@ const DoctorManagement = () => {
     };
 
     const timeOptions = React.useMemo(() => generateTimeOptions(), []);
+    
+    console.log(timeOptions);
 
     const handleSaveNewSchedule = () => {
         if (!selectedDate || (!selectedStartTime && !selectedEndTime)) {

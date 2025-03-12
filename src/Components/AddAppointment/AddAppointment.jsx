@@ -25,10 +25,8 @@ const AddAppointment = () => {
           "Content-Type": "application/json"
         },
         success: function (data) {
-          // console.log(data);
           if (Array.isArray(data)) {
             setPatients(data);
-            // console.log(patients);
           } else {
             setPatients([]);
           }
@@ -102,7 +100,6 @@ const AddAppointment = () => {
       success: function(response) {
         console.log('Appointment created successfully!', response);
         navigate('/appointment-details', { state: { appointment: response } });
-        // navigate('/doctor-profile', { state: { patient: response } });
       },
       error: function(error) {
         console.error('There was an error creating the appointment!', error);

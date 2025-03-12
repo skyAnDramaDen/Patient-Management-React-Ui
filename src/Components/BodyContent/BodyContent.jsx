@@ -18,9 +18,15 @@ import DoctorProfile from '../DoctorProfile/DoctorProfile';
 import AuthProvider, { AuthContext } from "../../Authcontext";
 import DoctorMenu from '../DoctorMenu/DoctorMenu';
 import DoctorHome from '../DoctorHome/DoctorHome';
-import DoctorDashboard from '../DoctorDashboard/DoctorDashboard';
 import AppointmentDetails from '../AppointmentDetails/AppointmentDetails';
 import ViewDoctor from '../ViewDoctor/ViewDoctor';
+import HomeChat from '../HomeChat/HomeChat';
+import DoctorChat from '../DoctorChat/DoctorChat';
+import MedicalRecords from '../MedicalRecords/MedicalRecords';
+import MedicalRecord from '../MedicalRecord/MedicalRecord';
+import ViewWards from '../ViewWards/ViewWards';
+import ViewFloors from '../ViewFloors/ViewFloors';
+import ViewFloor from '../ViewFloor/ViewFloor';
 
 export default function BodyContent() {
 	const { role } = useContext(AuthContext);
@@ -70,13 +76,10 @@ export default function BodyContent() {
 				<Route path="/staff/doctors/add" element={<AddDoctorForm />}>
 								Add Doctors
 							</Route>
-				<Route path="/staff/doctor/profile" element={<DoctorProfile />}>
+				<Route path="/doctor-profile" element={<DoctorProfile />}>
 								Profile
 				</Route>
 				<Route path="/doctor-home" element={<DoctorHome />}>
-								Home (Doctor)
-				</Route>
-				<Route path="/doctor-dashboard" element={<DoctorDashboard />}>
 								Home (Doctor)
 				</Route>
 				<Route path="/appointment-details" element={<AppointmentDetails />}>
@@ -84,6 +87,27 @@ export default function BodyContent() {
 				</Route>
 				<Route path="/view-doctor-schedule" element={<ViewDoctor />}>
 								View Doctor
+				</Route>
+				<Route path="/home-chat" element={<HomeChat />}>
+								Chat (Home)
+				</Route>
+				<Route path="/doctor-chat" element={<DoctorChat />}>
+								Chat (Doctor)
+				</Route>
+				<Route path="/medical-records" element={<MedicalRecords />}>
+								Medical Records
+				</Route>
+				<Route path="/patient-medical-record" element={<MedicalRecord />}>
+								Medical Record
+				</Route>
+				{/* <Route path="/view-wards" element={<ViewWards />}>
+								Wards
+				</Route> */}
+				<Route path="/view-floors" element={<ViewFloors />}>
+								Floors
+				</Route>
+				<Route path="/view-floor" element={<ViewFloor />}>
+								Floor
 				</Route>
 			</Routes>
 		</div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './EditPatientForm.css';
 import $ from 'jquery';
+import PageHeader from '../PageHeader/PageHeader';
 
 const EditPatientForm = () => {
     const { state } = useLocation();
@@ -48,7 +49,9 @@ const EditPatientForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <div className='patient-form'>
+            <PageHeader title="Edit Patient" />
+            <form onSubmit={handleSubmit}>
             <label>
                 First Name:
                 <input type="text" name="firstName" value={patient.firstName} onChange={handleChange} />
@@ -95,6 +98,7 @@ const EditPatientForm = () => {
             </label>
             <button type="submit">Save</button>
         </form>
+        </div>
     );
 };
 

@@ -4,7 +4,6 @@ import { AuthContext } from "../../Authcontext";
 import $ from "jquery";
 
 const DoctorHome = () => {
-  // const { user } = useContext(AuthContext);
   const [appointments, setAppointments] = useState([]);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ error, setError ] = useState("");
@@ -24,7 +23,6 @@ const DoctorHome = () => {
           "Content-Type": "application/json"
       },
       success: function(response) {
-        console.log(response);
         setAppointments(response.Appointments);
         setDoctor(response);
         setIsLoading(false);
@@ -36,8 +34,6 @@ const DoctorHome = () => {
     });
 
   }, []);
-
-  
 
   return (
     <div className="doctor-home staff-management">
@@ -53,7 +49,7 @@ const DoctorHome = () => {
 
       <h2>Upcoming Appointments</h2>
       <div className="appointments-list">
-        {appointments.length > 0 ? (
+        {appointments && appointments.length > 0 ? (
           appointments.map((appointment) => (
             <div
               key={appointment.id}

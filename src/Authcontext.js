@@ -1,6 +1,8 @@
 import React, { createContext, useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { io } from "socket.io-client";
+
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -12,14 +14,55 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const storedRole = localStorage.getItem("role");
+    const role = localStorage.getItem("role");
+    const user = localStorage.getItem("user");
+  
+    let parsedUser = null;
     
-    if (token && storedRole) {
-      setIsLoggedIn(true);
-      setRole(storedRole);
+    if (user) {
+      try {
+        parsedUser = JSON.parse(user);
+      } catch (error) {
+        console.error("Failed to parse storedUser:", error);
+      }
     }
+  
+    if (token && role) {
+      setIsLoggedIn(true);
+      setRole(role);
+      setUser(parsedUser);
+    }
+  
     setLoading(false);
   }, []);
+
+  //use effect hook for when user logs in to establish the socket
+  const useLoginEffect = (isLoggedIn, role, user) => {
+    const [socket, setSocket] = useState(null);
+  
+    useEffect(() => {
+      if (isLoggedIn && role && user) {
+        // ssocket connection
+        const newSocket = io("http://localhost:3000", {
+          transports: ["websocket"],
+          query: { userId: user.id, role: role }
+        });
+  
+        setSocket(newSocket);
+  
+        newSocket.on("connect", () => {
+          console.log("Connected to WebSocket as", user.username);
+          newSocket.emit('join', { username: user.username, role, userId: user.id }); // emitting join event here
+        });
+  
+        return () => newSocket.close();
+      }
+    }, [isLoggedIn, role, user]);
+  
+    return socket;
+  };
+
+  const socket = useLoginEffect(isLoggedIn, role, user);
 
   const login = (token, role, user) => {
     localStorage.setItem("token", token);
@@ -35,7 +78,13 @@ const AuthProvider = ({ children }) => {
     setIsLoggedIn(true);
     setRole(role);
     setUser(user);
-    // console.log(user);
+
+    const newSocket = io("http://localhost:3000", {
+      query: { userId: user.id, role: role }
+    });
+
+    // setSocket(newSocket);
+
     if (role == "super-admin") {
       navigate("/");
     } else if (role == "doctor") {
@@ -50,8 +99,14 @@ const AuthProvider = ({ children }) => {
     setIsLoggedIn(false);
     setRole(null);
     setUser(null);
+
+    if (socket) {
+      socket.disconnect();
+      // setSocket(null);
+    }
+
     navigate("/login"); 
-  }, [navigate]);
+  }, [socket, navigate]);
 
   
   useEffect(() => {
@@ -75,7 +130,7 @@ const AuthProvider = ({ children }) => {
   }, [logout]);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, role, user }}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, role, user, socket }}>
       {children}
     </AuthContext.Provider>
   );

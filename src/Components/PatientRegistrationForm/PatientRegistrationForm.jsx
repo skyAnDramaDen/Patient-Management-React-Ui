@@ -19,11 +19,29 @@ const PatientRegistrationForm = () => {
         email: '',
         phoneNumber: '',
         addressLine1: '',
+        addressLine2: '',
         city: '',
         state: '',
         postalCode: '',
-        country: ''
+        country: '',
+
+        medicalHistory: '',
+        allergies: '',
+        currentMedications: '',
+        emergencyContactName: '',
+        emergencyContactPhone: '',
+        primaryCarePhysician: '',
+        insuranceProvider: '',
+        insurancePolicyNumber: '',
+        occupation: '',
+        maritalStatus: '',
+        bloodType: '',
+        height: '',
+        weight: '',
+        notes: '',
+        ethnicity: ''
     });
+    
 
     const handleUserData = (e) => {
         setNewUser({ ...newUser, [e.target.name]: e.target.value });
@@ -34,13 +52,32 @@ const PatientRegistrationForm = () => {
         setPatient({ ...patient, [name]: value });
     };
 
-    const payload = {
-        patient: patient,
-        user: newUser
-    }
+    
+
+    const cleanData = (data) => {
+        for (const key in data) {
+          if (data[key] === "") {
+            data[key] = null;
+          }
+        }
+        return data;
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        const cleaned_patient_data = cleanData(patient); 
+
+        const payload = {
+            patient: cleaned_patient_data,
+            user: newUser
+        }
+        
+        console.log(payload);
+        
+        if (!payload.patient.firstName || !payload.patient.lastName) {
+            return;
+        }
 
         $.ajax({
             url: 'http://localhost:3000/patients/create',
@@ -99,6 +136,10 @@ const PatientRegistrationForm = () => {
                     <input type="text" name="addressLine1" value={patient.addressLine1} onChange={handleChange} />
                 </label>
                 <label>
+                    Address Line 2:
+                    <input type="text" name="addressLine2" value={patient.addressLine2} onChange={handleChange} />
+                </label>
+                <label>
                     City:
                     <input type="text" name="city" value={patient.city} onChange={handleChange} />
                 </label>
@@ -122,7 +163,7 @@ const PatientRegistrationForm = () => {
                     Password:
                     <input type="text" name="password" value={newUser.password} onChange={handleUserData} />
                 </label>
-                <label>
+                {/* <label>
                     <select name="role" value={newUser.role} onChange={handleUserData} required>
                         <option value="patient">Patient</option>
                         <option value="super-admin">Super Admin</option>
@@ -130,7 +171,68 @@ const PatientRegistrationForm = () => {
                         <option value="doctor">Doctor</option>
                         <option value="nurse">Nurse</option>
                     </select>
+                </label> */}
+                <label>
+                    Medical History:
+                    <textarea name="medicalHistory" value={patient.medicalHistory} onChange={handleChange}></textarea>
                 </label>
+                <label>
+                    Allergies:
+                    <textarea name="allergies" value={patient.allergies} onChange={handleChange}></textarea>
+                </label>
+                <label>
+                    Current Medications:
+                    <textarea name="currentMedications" value={patient.currentMedications} onChange={handleChange}></textarea>
+                </label>
+                <label>
+                    Emergency Contact Name:
+                    <input type="text" name="emergencyContactName" value={patient.emergencyContactName} onChange={handleChange} />
+                </label>
+                <label>
+                    Emergency Contact Phone:
+                    <input type="text" name="emergencyContactPhone" value={patient.emergencyContactPhone} onChange={handleChange} />
+                </label>
+                <label>
+                    Primary Care Physician:
+                    <input type="text" name="primaryCarePhysician" value={patient.primaryCarePhysician} onChange={handleChange} />
+                </label>
+                <label>
+                    Insurance Provider:
+                    <input type="text" name="insuranceProvider" value={patient.insuranceProvider} onChange={handleChange} />
+                </label>
+                <label>
+                    Insurance Policy Number:
+                    <input type="text" name="insurancePolicyNumber" value={patient.insurancePolicyNumber} onChange={handleChange} />
+                </label>
+                <label>
+                    Occupation:
+                    <input type="text" name="occupation" value={patient.occupation} onChange={handleChange} />
+                </label>
+                <label>
+                    Marital Status:
+                    <input type="text" name="maritalStatus" value={patient.maritalStatus} onChange={handleChange} />
+                </label>
+                <label>
+                    Blood Type:
+                    <input type="text" name="bloodType" value={patient.bloodType} onChange={handleChange} />
+                </label>
+                <label>
+                    Height:
+                    <input type="number" step="0.01" name="height" value={patient.height} onChange={handleChange} />
+                </label>
+                <label>
+                    Weight:
+                    <input type="number" step="0.01" name="weight" value={patient.weight} onChange={handleChange} />
+                </label>
+                <label>
+                    Notes:
+                    <textarea name="notes" value={patient.notes} onChange={handleChange}></textarea>
+                </label>
+                <label>
+                    Ethnicity:
+                    <input type="text" name="ethnicity" value={patient.ethnicity} onChange={handleChange} />
+                </label>
+
 
                 <button type="submit">Save</button>
             </form>

@@ -8,12 +8,12 @@ const DoctorScheduleComp = ({ doctor }) => {
     const [ appointments, setAppointments ] = useState([]);
 
     useEffect(() => {
-        setAppointments(doctor.appointments);
         console.log(doctor);
+        setAppointments(doctor.appointments);
     })
   return (
     <div className='outer-container'>
-        <Link to="/view-doctor-schedule" style={{ textDecoration: "none", color: "inherit" }}>
+        <Link to="/doctor-profile" state={{ doctor }} style={{ textDecoration: "none", color: "inherit" }}>
             <button class="edit-button">📝 Edit</button>
         </Link>
         
@@ -34,14 +34,16 @@ const DoctorScheduleComp = ({ doctor }) => {
         <div className="appointments">
             <h2>Appointments</h2>
             <div className="appointment-list">
-                {appointments && appointments.map((appointment, index) => (
+                {appointments && appointments ? (appointments.map((appointment, index) => (
                 <div className="appointment-item" key={index}>
-                    <h3>{appointment.patientName}</h3>
+                    <h3>{appointment.patient.firstName}</h3>
                     <p>{appointment.date}</p>
                     <p>{appointment.time}</p>
                     <p>{appointment.description}</p>
                 </div>
-                ))}
+                ))) : (
+                    <p>no appointments</p>
+                )}
             </div>
         </div>
     </div>
