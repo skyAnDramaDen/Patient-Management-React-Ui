@@ -4,8 +4,8 @@
     background: #f4f7fb;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 1200px;
-    margin: auto;
+    max-width: auto;
+    margin: 0;
     text-align: center;
   }
 
@@ -20,7 +20,6 @@
     margin-bottom: 30px; 
   } */
   
-  /* Action buttons section */
   .patient-actions {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -28,7 +27,6 @@
     margin: 20px 0;
   }
   
-  /* Action button styling */
   .action-button {
     display: block;
     padding: 15px;
@@ -51,7 +49,6 @@
     box-shadow: 0 0 0 3px rgba(38, 90, 147, 0.3);
   }
   
-  /* Responsive Design for smaller screens */
   @media (max-width: 768px) {
     .patient-management {
       padding: 20px;

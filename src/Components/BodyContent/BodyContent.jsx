@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './BodyContent.css';
@@ -24,12 +24,16 @@ import HomeChat from '../HomeChat/HomeChat';
 import DoctorChat from '../DoctorChat/DoctorChat';
 import MedicalRecords from '../MedicalRecords/MedicalRecords';
 import MedicalRecord from '../MedicalRecord/MedicalRecord';
-import ViewWards from '../ViewWards/ViewWards';
 import ViewFloors from '../ViewFloors/ViewFloors';
 import ViewFloor from '../ViewFloor/ViewFloor';
+import ViewWard from '../ViewWard/ViewWard';
+import { FaBars } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 
 export default function BodyContent() {
 	const { role } = useContext(AuthContext);
+	const [active, setActive] = useState(false);
+	const menuRef = useRef(null);
 
 	const renderMenu = () => {
 		if (role === 'super-admin') {
@@ -40,9 +44,46 @@ export default function BodyContent() {
 		  return null;
 		}
 	  };
+
+	  useEffect(() => {
+		let timer;
+		if (active) {
+		  timer = setTimeout(() => setActive(false), 5000);
+		}
+		return () => clearTimeout(timer);
+	  }, [active]);
+
+	  useEffect(() => {
+		const handleClickOutside = (event) => {
+		  if (menuRef.current && !menuRef.current.contains(event.target)) {
+			setActive(false);
+		  }
+		};
+	
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	  }, [active]);
   return (
     <div className='bodycontent'>
-        {renderMenu()}
+        {/* {renderMenu()} */}
+        {/* {active && renderMenu()} */}
+		
+		{/* <div ref={menuRef}  className={active ? "side-menu active" : "side-menu"}>
+			<p onClick={() => { setActive(!active); }}
+			className=''
+			
+			>
+				{active ? <IoMdClose /> : <FaBars />}
+			</p>
+			{active && renderMenu()}
+		</div>
+		{!active && (
+			<div className="menu-handle" onClick={() => setActive(!active)}>
+			<FaBars />
+			</div>
+		)} */}
+
+		{/* <p onClick={() => {setActive(!active)}}>{active ? <IoMdClose /> : <FaBars />}</p> */}
         <div className='content-div'>
 			<Routes>
 				<Route path="/" element ={<HomePage />}></Route>
@@ -100,14 +141,14 @@ export default function BodyContent() {
 				<Route path="/patient-medical-record" element={<MedicalRecord />}>
 								Medical Record
 				</Route>
-				{/* <Route path="/view-wards" element={<ViewWards />}>
-								Wards
-				</Route> */}
 				<Route path="/view-floors" element={<ViewFloors />}>
 								Floors
 				</Route>
 				<Route path="/view-floor" element={<ViewFloor />}>
 								Floor
+				</Route>
+				<Route path="/view-ward" element={<ViewWard />}>
+								Ward
 				</Route>
 			</Routes>
 		</div>

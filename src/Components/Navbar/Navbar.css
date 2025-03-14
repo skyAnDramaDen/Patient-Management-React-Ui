@@ -6,6 +6,8 @@
     padding: 10px 20px;
     color: white;
     height: 50px;
+    background-color: #265A93 !important;
+    color: white !important; 
   }
   
   .nav-logo {

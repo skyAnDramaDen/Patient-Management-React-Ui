@@ -67,7 +67,7 @@ const AuthProvider = ({ children }) => {
   const login = (token, role, user) => {
     localStorage.setItem("token", token);
 
-    //to set the role below, i couldve used the state role
+    //to set the role below, i could've used the state role
     //but that is not updated as quickly and so when i login
     //i have to reload to see the effects so i pass the role
     //from the response which is set at the time

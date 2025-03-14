@@ -48,7 +48,7 @@ const NavBar = () => {
     {isLoggedIn ? (
       <button onClick={handleLogout}>Logout</button>
     ) : (
-      <Link to="/login" style={{ textDecoration: 'none', color: 'white' }}>
+      <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>
         Login
       </Link>
     )

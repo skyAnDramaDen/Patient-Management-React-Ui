@@ -2,6 +2,7 @@ import './ManageAppointments.css';
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import $ from "jquery";
+import PageHeader from '../PageHeader/PageHeader';
 
 const ManageAppointments = () => {
   const navigate = useNavigate(); 
@@ -28,10 +29,8 @@ const ManageAppointments = () => {
 
   return (
     <div className="manage-appointments">
-      <div className='top-view'>
-        <button className="back-button" onClick={() => navigate("/patient-management")}>🔙 Back</button>
-        <h2>Manage Appointments</h2>
-      </div>
+
+      <PageHeader title="Manage Appointments" />
 
       <div className="appointment-actions">
         <Link to="/appointments/new" className="action-button">➕ Add New Appointment</Link>

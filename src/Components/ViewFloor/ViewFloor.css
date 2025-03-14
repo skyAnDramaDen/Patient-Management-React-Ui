@@ -1,3 +1,34 @@
 .floor {
     padding: 30px;
 }
+
+.add-ward-btn {
+    border: 1px solid silver;
+    border-radius: 5px;
+    background-color: transparent;
+    color: black;
+    width: 100px;
+}
+
+.save-btn {
+    color: black;
+    background-color: transparent;
+    width: 100px;
+    border: 1px solid silver;
+    border-radius: 5px;
+}
+
+.delete-floor-btn {
+    width: 150px;
+    margin: 0;
+    padding: 10 0;
+    background-color: transparent;
+    color: black;
+    border: 1px solid silver;
+}
+
+.ward {
+    padding: 10px;
+    border: 1px solid silver;
+    border-radius: 5px;
+}

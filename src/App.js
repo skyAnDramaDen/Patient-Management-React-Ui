@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import NavBar from './Components/Navbar/Navbar';
@@ -9,11 +9,16 @@ import BodyContent from './Components/BodyContent/BodyContent';
 import Login from './Components/Login/Login';
 import AuthProvider, { AuthContext } from "./Authcontext";
 import DoctorMenu from './Components/DoctorMenu/DoctorMenu';
+import Header from './Components/Header/Header';
+import Sidebar from './Components/Sidebar/Sidebar';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const AppContent = () => {
   const { isLoggedIn, role } = useContext(AuthContext);
+  const [showNav, setShowNav] = useState(false);
+  const sidebarRef = useRef(null);
+  const hamburgerRef = useRef(null);
 
   const renderContent = () => {
     switch (role) {
@@ -54,6 +59,24 @@ const AppContent = () => {
     }
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target) &&
+        hamburgerRef.current &&
+        !hamburgerRef.current.contains(event.target)
+      ) {
+        setShowNav(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   // useEffect(() => {
     
   //   const token = localStorage.getItem('token');
@@ -68,7 +91,11 @@ const AppContent = () => {
     <div className="App">
       {isLoggedIn ? (
           <>
-          <NavBar />
+          <Header showNav={showNav} setShowNav={setShowNav} />
+          {/* <NavBar /> */}
+          
+         <Sidebar show={showNav} setShowNav={setShowNav} ref={sidebarRef} />
+          
           <BodyContent />
           <Footer />
           </>

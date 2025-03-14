@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Menu.css";
 import { Link } from "react-router-dom";
 import PatientRegistrationForm from "../PatientRegistrationForm/PatientRegistrationForm";
 
-const Menu = () => (
-	<div className="menu">
+const Menu = () => {
+	const [isOpen, setIsOpen] = useState(true);
+
+	const toggleMenu = () => {
+		setIsOpen(!isOpen);
+	};	
+	
+	return (
+	<div className={`menu-container ${isOpen ? "open" : "closed"}`}>
+		{/* <button className="menu-toggle" onClick={toggleMenu}>
+        {isOpen ? "✖" : "☰"}
+      </button> */}
+
+		<div className="menu">
 		<div className="menu-header">MENU</div>
 		<ul className="menu-list">
 			<Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
@@ -26,12 +38,14 @@ const Menu = () => (
 				<li className="menu-item">WARDS</li>
 			</Link> */}
 			<Link to="/view-floors" style={{ textDecoration: "none", color: "inherit" }}>
-				<li className="menu-item">FLOORS</li>
+				<li className="menu-item">FLOORS/WARD MNGMT</li>
 			</Link>
 			<li className="menu-item">BILLING/PAYMENT</li>
 			<li className="menu-item">SETTINGS</li>
 		</ul>
 	</div>
-);
+	</div>
+	)
+};
 
 export default Menu;

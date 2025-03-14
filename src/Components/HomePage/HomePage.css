@@ -1,11 +1,11 @@
 .home-page {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 5px;
-    padding: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 10px;
     background-color: #f4f4f4;
     width: 100%;
-    margin-right: 50px;
+    /* margin-right: 50px; */
 }
 
   .grid-item {

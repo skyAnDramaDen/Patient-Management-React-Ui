@@ -7,9 +7,9 @@
 
 /* Menu Container */
 .menu {
-  width: 250px; /* Fixed width for the menu */
-  height: 100vh; /* Full height of the viewport */
-  background-color: #265A93; /* Navbar color */
+  width: 250px;
+  height: 100vh;
+  background-color: #265A93;
   color: #ffffff; /* White text for contrast */
   display: flex;
   flex-direction: column;

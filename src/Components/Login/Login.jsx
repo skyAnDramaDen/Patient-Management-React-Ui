@@ -38,7 +38,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginUser(username, password); 
+    loginUser(username, password);
   };
 
   return (

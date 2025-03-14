@@ -1,0 +1,67 @@
+.wards {
+    padding: 30px;
+}
+
+.add-floor-container {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+  }
+  
+  .add-floor-btn {
+    background-color: transparent;
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 110px;
+    border: 1px solid silver;
+    margin-bottom: 10px;
+  }
+  
+  .add-floor-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .floor-input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    gap: 8px;
+  }
+  
+  .floor-input-container input {
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 30px;
+    margin: 0;
+    max-width: 400px;
+  }
+  
+  .save-floor-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100px;
+    height: 30px;
+  }
+  
+  .save-floor-btn:hover {
+    background-color: #218838;
+  }
+  
+  .floor-name {
+    border: 1px solid silver;
+    border-radius: 5px;
+    padding: 5px;
+  }

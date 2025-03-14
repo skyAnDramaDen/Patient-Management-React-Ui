@@ -9,8 +9,10 @@ import PageHeader from "../PageHeader/PageHeader";
 export default function ViewFloors() {
     const [showInput, setShowInput] = useState(false);
     const [floorName, setFloorName] = useState("");
+    const [floorNumber, setFloorNumber] = useState();
     const [floors, setFloors] = useState([]);
     const [floorAdded, setFloorAdded] = useState(false);
+
 
     useEffect(() => {
         $.ajax({
@@ -21,7 +23,7 @@ export default function ViewFloors() {
                 "Content-Type": "application/json"
             },
             success: function(response) {
-                console.log(response);
+                // console.log(response);
                 setFloors(Array.isArray(response) ? response : []);
             },
             error: (error) => {
@@ -43,9 +45,9 @@ export default function ViewFloors() {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
             },
-            data: JSON.stringify({ name: floorName }),
+            data: JSON.stringify({ name: floorName, floorNumber: floorNumber }),
             success: function(response) {
-                console.log(response);
+                // console.log(response);
                 alert("Floor added successfully!");
                 setShowInput(false);
                 setFloorName("");
@@ -75,6 +77,12 @@ export default function ViewFloors() {
               value={floorName}
               onChange={(e) => setFloorName(e.target.value)}
             />
+            <input
+              type="number"
+              placeholder="Enter floor number"
+              value={floorNumber}
+              onChange={(e) => setFloorNumber(e.target.value)}
+            />
             <button className="save-floor-btn" onClick={handleAddFloor}>Save</button>
           </div>
         )}
@@ -88,7 +96,7 @@ export default function ViewFloors() {
                     style={{ textDecoration: "none", color: "inherit" }}
                     key={floor.id}
                     >
-                        <p className="floor-name">{floor.name}</p>
+                        <p className="floor-name">{floor.name} ({floor.floorNumber})</p>
                     </Link>
                 )
             })

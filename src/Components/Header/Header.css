@@ -1,0 +1,36 @@
+.header {
+    padding: 20px 30px;
+    height: 70px;
+    background: #011627;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+    /* height: 50px; */
+    color: white !important; 
+}
+
+.hamburger {
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+}
+
+.menu-burger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}
+
+.menu-burger:hover {
+    cursor: pointer;
+}
+
+.menu-burger p {
+    color: white;
+    align-self: center;
+    justify-self: center;
+}
