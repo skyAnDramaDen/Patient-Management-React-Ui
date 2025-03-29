@@ -51,7 +51,7 @@ const AuthProvider = ({ children }) => {
         setSocket(newSocket);
   
         newSocket.on("connect", () => {
-          console.log("Connected to WebSocket as", user.username);
+          // console.log("Connected to WebSocket as", user.username);
           newSocket.emit('join', { username: user.username, role, userId: user.id }); // emitting join event here
         });
   

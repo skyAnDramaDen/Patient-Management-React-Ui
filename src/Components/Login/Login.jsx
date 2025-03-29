@@ -5,6 +5,7 @@ import "./Login.css";
 import { AuthContext } from "../../Authcontext";
 
 const Login = () => {
+  const server_url = process.env.REACT_APP_API_URL;
   const { login } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -25,15 +26,33 @@ const Login = () => {
     setLoading(true);
     setError('');
 
-    $.post('http://localhost:3000/login', { username, password }, function(response) {
-      login(response.token, response.user.role, response.user);
-      // console.log('Login successful:', response.message);
-    }).fail(function(error) {
-      console.error('Login error:', error.responseJSON ? error.responseJSON.message : error.statusText);
-      setError('Invalid credentials. Please try again.');
-    }).always(function() {
-      setLoading(false);
-    });
+    $.ajax({
+      url: `${server_url}/login`,
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      },
+      data: JSON.stringify({ username, password }),
+      success: function(response) {
+        login(response.token, response.user.role, response.user);
+      },
+      error: function(error) {
+        console.log(error);
+        console.error('Login error:', error.responseJSON ? error.responseJSON.message : error.statusText);
+        setError('Invalid credentials. Please try again.');
+      }
+    })
+
+    // $.post('http://localhost:3000/login', { username, password }, function(response) {
+    //   login(response.token, response.user.role, response.user);
+    //   // console.log('Login successful:', response.message);
+    // }).fail(function(error) {
+    //   console.error('Login error:', error.responseJSON ? error.responseJSON.message : error.statusText);
+    //   setError('Invalid credentials. Please try again.');
+    // }).always(function() {
+    //   setLoading(false);
+    // });
   };
 
   const handleSubmit = (e) => {

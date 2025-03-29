@@ -29,6 +29,12 @@ import ViewFloor from '../ViewFloor/ViewFloor';
 import ViewWard from '../ViewWard/ViewWard';
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import Billing from '../Billing/Billing';
+import Admissions from '../Admissions/Admissions';
+import AdmitPatient from '../AdmitPatient/AdmitPatient';
+import ViewAdmission from '../ViewAdmission/ViewAdmission';
+import BillingCategory from '../BillingCategory/BillingCategory';
+import DischargePatient from '../DischargePatient/DischargePatient';
 
 export default function BodyContent() {
 	const { role } = useContext(AuthContext);
@@ -149,6 +155,24 @@ export default function BodyContent() {
 				</Route>
 				<Route path="/view-ward" element={<ViewWard />}>
 								Ward
+				</Route>
+				<Route path="/billing-and-payment" element={<Billing />}>
+								Billing
+				</Route>
+				<Route path="/admissions" element={<Admissions />}>
+								Admissions
+				</Route>
+				<Route path="/admit-patient" element={<AdmitPatient />}>
+								Admit Patient
+				</Route>
+				<Route path="/view-admission" element={<ViewAdmission />}>
+								View Admission
+				</Route>
+				<Route path="/billing-category" element={<BillingCategory />}>
+								Billing Category
+				</Route>
+				<Route path="/discharge-patient" element={<DischargePatient />}>
+								Discharge Patient
 				</Route>
 			</Routes>
 		</div>

@@ -11,6 +11,7 @@ export default function MedicalRecords() {
   const [ patientsList, setPatientsList ] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [ selectedPatient, setSelectedPatient ] = useState(null);
+  const server_url = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     console.log("Updated medicalRecords:", medicalRecords);
@@ -20,7 +21,7 @@ export default function MedicalRecords() {
   useEffect(() => {
     if (patientSearch.length > 1) {
       $.ajax({
-        url: `http://localhost:3000/medicalRecords/get-medical-record-by-patients-name?search=${patientSearch}`,
+        url: `${server_url}/medicalRecords/get-medical-record-by-patients-name?search=${patientSearch}`,
         method: 'GET',
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -47,13 +48,12 @@ export default function MedicalRecords() {
 
   useEffect(() => {
     $.ajax({
-      url: 'http://localhost:3000/patients',
+      url: `${server_url}/patients`,
       method: 'GET',
       headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json"
       },
-      // data: JSON.stringify(),
       success: function(response) {
           console.log(response);
           setPatientsList(response);

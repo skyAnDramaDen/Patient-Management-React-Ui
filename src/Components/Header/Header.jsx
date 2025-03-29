@@ -1,12 +1,12 @@
 import "./Header.css";
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef, forwardRef } from 'react';
 import { Link } from 'react-router-dom';
 
 
 import { AuthContext } from "../../Authcontext";
 import { RxHamburgerMenu } from "react-icons/rx";
 
-function Header({ showNav, setShowNav }) {
+const Header = forwardRef(({ showNav, setShowNav }, ref) => {
     const { logout, role } = useContext(AuthContext);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -19,15 +19,37 @@ function Header({ showNav, setShowNav }) {
         }
     }, []);
 
+
+    // useEffect(() => {
+    //     const menuBurger = menuBurgerRef.current;
+    //     console.log(menuBurger);
+    //     if (menuBurger) {
+    //         const handleMouseDown = (event) => {
+    //             // console.log("Mousedown event triggered:", event.target);
+    //         };
+
+    //         menuBurger.addEventListener("mousedown", handleMouseDown);
+
+    //         return () => {
+    //             menuBurger.removeEventListener("mousedown", handleMouseDown);
+    //         };
+    //     }
+    // }, []);
+
     const handleLogout = () => {
         logout();
     };
   return (
-    <div className="header">
+    <div className="header" >
         <div className="menu-burger"
         onClick={() => {
-            setShowNav(!showNav)
-        }}>
+            setShowNav((prevState) => {
+                return !prevState;
+            });
+        }}
+        ref={ref}
+        
+        >
             <RxHamburgerMenu className="hamburger"
             
             />
@@ -35,7 +57,7 @@ function Header({ showNav, setShowNav }) {
         </div>
         
         <p>{role}</p>
-        <ul className="nav-menu">
+        {/* <ul className="nav-menu">
         <li>
             <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>Home</Link>
         </li>
@@ -48,7 +70,7 @@ function Header({ showNav, setShowNav }) {
         <li>
             <Link to="/contact" style={{ textDecoration: 'none', color: 'inherit' }}>Contact Us</Link>
         </li>
-        </ul>
+        </ul> */}
         <div className="nav-login">
         {isLoggedIn ? (
         <button onClick={handleLogout}>Logout</button>
@@ -61,6 +83,6 @@ function Header({ showNav, setShowNav }) {
         </div>
     </div>
   )
-}
+})
 
 export default Header

@@ -4,6 +4,7 @@ import { useState } from "react";
 import $ from 'jquery';
 
 const AddDoctorForm = () => {
+  const server_url = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const [newUser, setNewUser] = useState({
     username: "",
@@ -50,7 +51,7 @@ const AddDoctorForm = () => {
     }
 
     $.ajax({
-      url: 'http://localhost:3000/doctors/create',
+      url: `${server_url}/doctors/create`,
       method: 'POST',
       headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,

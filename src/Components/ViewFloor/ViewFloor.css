@@ -1,5 +1,5 @@
 .floor {
-    padding: 30px;
+    padding: 20px;
 }
 
 .add-ward-btn {
@@ -8,6 +8,7 @@
     background-color: transparent;
     color: black;
     width: 100px;
+    margin-right: 5px;
 }
 
 .save-btn {
@@ -25,10 +26,16 @@
     background-color: transparent;
     color: black;
     border: 1px solid silver;
+    margin-right: 5px;
 }
 
 .ward {
     padding: 10px;
     border: 1px solid silver;
     border-radius: 5px;
+}
+
+.input-button input,
+.input-button button {
+    margin-right: 5px;
 }

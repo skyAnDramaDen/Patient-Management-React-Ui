@@ -11,6 +11,7 @@ const ViewDoctor = () => {
   const [doctor, setDoctor] = useState(null);
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
+  const server_url = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     if (location.state && location.state.doctor) {
@@ -23,25 +24,22 @@ const ViewDoctor = () => {
   useEffect(() => {
     if (doctor != null) {
         $.ajax({
-            url: `http://localhost:3000/doctors/doctor-schedule/${doctor.id}`,
+            url: `${server_url}/doctors/doctor-schedule/${doctor.id}`,
             method: 'GET',
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
             },
             success: function(response) {
-                console.log('Schedules fetched successfully!', response);
-                if (response.schedules == null) {
-                    setSchedules([]);
-                } else {
-                    setSchedules(response.schedules);
-                }
-                
-                setLoading(false);
+              if (response.schedules == null) {
+                setSchedules([]);
+              } else {
+                setSchedules(response.schedules);
+              }
+              setLoading(false);
             },
             error: function(error) {
                 console.error('There was an error fetching the schedules!', error);
-                alert('Failed to fetch schedules.');
                 setLoading(false);
             }
         });

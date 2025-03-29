@@ -11,14 +11,17 @@ import AuthProvider, { AuthContext } from "./Authcontext";
 import DoctorMenu from './Components/DoctorMenu/DoctorMenu';
 import Header from './Components/Header/Header';
 import Sidebar from './Components/Sidebar/Sidebar';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const AppContent = () => {
   const { isLoggedIn, role } = useContext(AuthContext);
   const [showNav, setShowNav] = useState(false);
+
   const sidebarRef = useRef(null);
-  const hamburgerRef = useRef(null);
+  const menuBurgerRef = useRef(null);
 
   const renderContent = () => {
     switch (role) {
@@ -61,43 +64,45 @@ const AppContent = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        sidebarRef.current &&
-        !sidebarRef.current.contains(event.target) &&
-        hamburgerRef.current &&
-        !hamburgerRef.current.contains(event.target)
-      ) {
+      //the event below at first would immediately turn showNav false
+      //because when i click, its true but i click on a diff field 
+      //thats not the sidebar and when the menu is open and there is
+      //a click thats not the sidebar, it is to set to false. so i 
+      //referenced the menu burger click as well and if the click is from
+      //the menu burger, nothing happens
+      if (sidebarRef.current && (!sidebarRef.current.contains(event.target) && !menuBurgerRef.current.contains(event.target))) {
         setShowNav(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
-
-  // useEffect(() => {
-    
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     setIsLoggedIn(true);  
-  //   } else {
-  //     setIsLoggedIn(false);
-  //   }
-  // }, []);
+  }, [setShowNav]);
 
   return (
     <div className="App">
       {isLoggedIn ? (
           <>
-          <Header showNav={showNav} setShowNav={setShowNav} />
+          <ToastContainer 
+            position="top-right" 
+            autoClose={5000} 
+            hideProgressBar={false} 
+            newestOnTop 
+            closeOnClick 
+            pauseOnHover 
+            draggable 
+            theme="colored" 
+        />
+          <Header showNav={showNav} setShowNav={setShowNav} ref={menuBurgerRef}/>
           {/* <NavBar /> */}
           
-         <Sidebar show={showNav} setShowNav={setShowNav} ref={sidebarRef} />
+         <Sidebar show={showNav} setShowNav={setShowNav}  ref={sidebarRef} />
           
           <BodyContent />
-          <Footer />
+          {/* <Footer /> */}
           </>
         ) : (
           <Login />

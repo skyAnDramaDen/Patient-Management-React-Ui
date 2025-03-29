@@ -6,7 +6,7 @@
 }
 
 .patient-registration {
-  padding: 30px;
+  padding: 20px;
 }
 
 .patient-registration-form {
@@ -58,7 +58,7 @@ label {
 }
 
 /* Input Fields */
-input, textarea {
+.input-fields input, textarea {
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;

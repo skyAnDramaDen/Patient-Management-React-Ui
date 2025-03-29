@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import PageHeader from '../PageHeader/PageHeader';
 
 const AddAppointment = () => {
+  const server_url = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const [patientSearch, setPatientSearch] = useState("");
   const [patients, setPatients] = useState([]);
@@ -18,7 +19,7 @@ const AddAppointment = () => {
     if (patientSearch.length > 1) {
       // console.log(`Searching for patients with: ${patientSearch}`);
       $.ajax({
-        url: `http://localhost:3000/patients/get-patients-by-name?search=${patientSearch}`,
+        url: `${server_url}/patients/get-patients-by-name?search=${patientSearch}`,
         method: 'GET',
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -45,7 +46,7 @@ const AddAppointment = () => {
     // console.log(appointmentDate);
     if (appointmentDate != null) {
       $.ajax({
-        url: `http://localhost:3000/doctors/scheduled-for/${appointmentDate}`,
+        url: `${server_url}/doctors/scheduled-for/${appointmentDate}`,
         method: 'GET',
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -90,7 +91,7 @@ const AddAppointment = () => {
     };
 
     $.ajax({
-      url: 'http://localhost:3000/appointment/create',
+      url: `${server_url}/appointment/create`,
       method: 'POST',
       headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`,

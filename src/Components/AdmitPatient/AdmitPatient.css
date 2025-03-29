@@ -1,0 +1,21 @@
+.admit-patient {
+    padding: 20px;
+}
+
+.admission-status-bar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkboxes {
+    display: flex;
+}
+
+.disabled-div {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  
+  .admission-type label {
+    margin-right: 5px;
+  }

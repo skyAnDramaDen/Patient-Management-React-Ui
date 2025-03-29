@@ -10,6 +10,7 @@ export default function MedicalRecord() {
   const [ patient, setPatient ] = useState();
   const { state } = useLocation();
   const patient_self = state ? state.patient : null;
+  const server_url = process.env.REACT_APP_API_URL;
   // console.log(patient_self);
 
   const [medicalRecord, setMedicalRecord] = useState(null);
@@ -28,7 +29,7 @@ export default function MedicalRecord() {
 
     useEffect(() => {
       $.ajax({
-        url: `http://localhost:3000/medicalRecords/get-by/${patient_self.id}`,
+        url: `${server_url}/medicalRecords/get-by/${patient_self.id}`,
         method: "GET",
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -75,7 +76,7 @@ export default function MedicalRecord() {
       console.log("medical record router");
   
       $.ajax({
-        url: `http://localhost:3000/medicalRecords/update/${medicalRecord.id}`,
+        url: `${server_url}/medicalRecords/update/${medicalRecord.id}`,
         method: "POST",
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -84,7 +85,7 @@ export default function MedicalRecord() {
         data: JSON.stringify(formData),
         success: function (response) {
           console.log("Medical record updated successfully!", response);
-          setMedicalRecord(response); // Update state with new data
+          setMedicalRecord(response);
           setIsSaveDisabled(true);
           alert("Medical record updated successfully!");
         },

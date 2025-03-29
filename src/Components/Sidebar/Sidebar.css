@@ -1,6 +1,7 @@
    .sidebar2 {
     width: 240px;
-    background: #011627;
+    /* background: #3F418D; */
+    background: #00246B;
     position: absolute;
     transition: all 0.3s;
     left: -100%;

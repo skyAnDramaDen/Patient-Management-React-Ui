@@ -5,6 +5,7 @@ import $ from 'jquery';
 import PageHeader from "../PageHeader/PageHeader";
 
 const DoctorManagement = () => {
+    const server_url = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
     const [doctors, setDoctors] = useState([]);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
@@ -36,7 +37,7 @@ const DoctorManagement = () => {
     useEffect(() => {
         const now = new Date(Date.now());
         $.ajax({
-            url: 'http://localhost:3000/doctors',
+            url: `${server_url}/doctors`,
             method: 'GET',
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -46,12 +47,19 @@ const DoctorManagement = () => {
             success: function(response) {
                 console.log(response);
                 setDoctors(response);
+                
             },
             error: function(error) {
                 console.error('There was an error fetching the doctors!', error);
             }
         });
     }, [])
+
+    useEffect(() => {
+        if (doctors) {
+            console.log(doctors)
+        }
+    }, [doctors])
 
     const handleDoctorClick = (doctor) => {
         setSelectedDoctor(doctor);
@@ -86,7 +94,7 @@ const DoctorManagement = () => {
 
     const timeOptions = React.useMemo(() => generateTimeOptions(), []);
     
-    console.log(timeOptions);
+    // console.log(timeOptions);
 
     const handleSaveNewSchedule = () => {
         if (!selectedDate || (!selectedStartTime && !selectedEndTime)) {
@@ -114,7 +122,7 @@ const DoctorManagement = () => {
         // setSchedule([...schedule, newScheduleEntry]);
 
         $.ajax({
-            url: 'http://localhost:3000/schedule/create',
+            url: `${server_url}/schedule/create`,
             method: 'POST',
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,

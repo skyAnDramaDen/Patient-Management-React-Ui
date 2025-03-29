@@ -7,10 +7,11 @@ import PageHeader from '../PageHeader/PageHeader';
 const ManageAppointments = () => {
   const navigate = useNavigate(); 
   const [appointments, setAppointments] = useState([]);
+  const server_url = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     $.ajax({
-      url: 'http://localhost:3000/appointment',
+      url: `${server_url}/appointment`,
       method: 'GET',
       headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,

@@ -5,6 +5,7 @@ import $ from 'jquery';
 import PageHeader from '../PageHeader/PageHeader';
 
 const EditPatientForm = () => {
+    const server_url = process.env.REACT_APP_API_URL;
     const { state } = useLocation();
     const navigate = useNavigate();
     const [patient, setPatient] = useState(state ? state.patient : null);
@@ -35,7 +36,7 @@ const EditPatientForm = () => {
             patient: patient,
             user: newUser
         }
-        $.post(`http://localhost:3000/patients/update`, payload, (response) => {
+        $.post(`${server_url}/patients/update`, payload, (response) => {
             console.log('Patient updated successfully!', response);
             navigate('/patient-profile', { state: { patient: response } });
         }).fail((error) => {

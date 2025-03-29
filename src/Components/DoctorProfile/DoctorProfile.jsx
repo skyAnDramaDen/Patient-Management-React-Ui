@@ -5,6 +5,7 @@ import "./DoctorProfile.css";
 import PageHeader from '../PageHeader/PageHeader';
 
 const DoctorProfile = () => {
+  const server_url = process.env.REACT_APP_API_URL;
   const location = useLocation();
   const navigate = useNavigate();
   const [doctor, setDoctor] = useState(null);
@@ -32,7 +33,7 @@ const DoctorProfile = () => {
 
   const handleSave = () => {
     $.ajax({
-      url: `http://localhost:3000/doctors/doctor/update/${doctor.id}`,
+      url: `${server_url}/doctors/doctor/update/${doctor.id}`,
       method: 'PUT',
       headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,

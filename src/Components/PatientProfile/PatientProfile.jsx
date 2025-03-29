@@ -8,10 +8,12 @@ const PatientProfile = () => {
     const state_patient = state ? state.patient : null;
     const [patient, setPatient] = useState(null);
     const navigate = useNavigate();
+    const server_url = process.env.REACT_APP_API_URL;
 
     const [isSaveDisabled, setIsSaveDisabled] = useState(true);
     const [formData, setFormData] = useState({
         firstName: "",
+        lastName: "",
         dateOfBirth: "",
         gender: "",
         bloodType: "",
@@ -20,8 +22,8 @@ const PatientProfile = () => {
         phoneNumber: "",
         email: "",
         addressLine1: "",
-        emergencyContactName: "",
-        emergencyContactPhone: "",
+        name: "",
+        phone: "",
         chronicConditions: "",
         medications: "",
         pastSurgeries: "",
@@ -29,11 +31,12 @@ const PatientProfile = () => {
         insuranceProvider: "",
         policyNumber: "",
         coverageDetails: ""
-      });
+    });
       
 
     useEffect(() => {
         if (state_patient) {
+            console.log(state_patient);
             setPatient(state_patient);
         }
     }, [])
@@ -49,7 +52,7 @@ const PatientProfile = () => {
 
     const handleSave = () => {
         $.ajax({
-          url: `http://localhost:3000/patients/edit/${patient.id}`,
+          url: `${server_url}/patients/edit/${patient.id}`,
           method: 'PUT',
           headers: {
               "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -103,7 +106,16 @@ const PatientProfile = () => {
                     <input
                         type="text"
                         name="firstName"
-                        value={patient.firstName || ""}
+                        value={patient.firstName}
+                        onChange={handleInputChange}
+                    />
+                </div>
+                <div>
+                    <label>Surname:</label>
+                    <input
+                        type="text"
+                        name="lastName"
+                        value={patient.lastName}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -157,7 +169,7 @@ const PatientProfile = () => {
                 <div>
                     <label>Phone:</label>
                     <input
-                        type="text"
+                        type="number"
                         name="phoneNumber"
                         value={patient.phoneNumber || ""}
                         onChange={handleInputChange}
@@ -187,7 +199,7 @@ const PatientProfile = () => {
                             <label>Emergency Contact:</label>
                             <input
                                 type="text"
-                                name="emergencyContactName"
+                                name="name"
                                 value={patient.emergencyContact.name || ""}
                                 onChange={handleInputChange}
                             />
@@ -196,7 +208,7 @@ const PatientProfile = () => {
                             <label>Emergency Phone:</label>
                             <input
                                 type="text"
-                                name="emergencyContactPhone"
+                                name="phone"
                                 value={patient.emergencyContact.phone || ""}
                                 onChange={handleInputChange}
                             />

@@ -12,18 +12,17 @@ export default function ViewFloors() {
     const [floorNumber, setFloorNumber] = useState();
     const [floors, setFloors] = useState([]);
     const [floorAdded, setFloorAdded] = useState(false);
-
+    const server_url = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         $.ajax({
-            url: "http://localhost:3000/floors",
+            url: `${server_url}/floors`,
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
             },
             success: function(response) {
-                // console.log(response);
                 setFloors(Array.isArray(response) ? response : []);
             },
             error: (error) => {
@@ -39,7 +38,7 @@ export default function ViewFloors() {
         }
 
         $.ajax({
-            url: "http://localhost:3000/floors/create",
+            url: `${server_url}/floors/create`,
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -47,7 +46,6 @@ export default function ViewFloors() {
             },
             data: JSON.stringify({ name: floorName, floorNumber: floorNumber }),
             success: function(response) {
-                // console.log(response);
                 alert("Floor added successfully!");
                 setShowInput(false);
                 setFloorName("");

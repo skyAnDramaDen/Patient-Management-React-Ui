@@ -4,6 +4,7 @@ import { AuthContext } from "../../Authcontext";
 import $ from "jquery";
 
 const DoctorHome = () => {
+  const server_url = process.env.REACT_APP_API_URL;
   const [appointments, setAppointments] = useState([]);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ error, setError ] = useState("");
@@ -16,7 +17,7 @@ const DoctorHome = () => {
     setUser(user)
 
     $.ajax({
-      url: `http://localhost:3000/doctors/doctor-appointments/${user.id}`,
+      url: `${server_url}/doctors/doctor-appointments/${user.id}`,
       method: 'GET',
       headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,

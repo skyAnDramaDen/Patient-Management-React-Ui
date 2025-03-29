@@ -5,12 +5,14 @@ import $ from 'jquery';
 import PageHeader from '../PageHeader/PageHeader';
 
 const PatientRegistrationForm = () => {
+    const server_url = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
     const [newUser, setNewUser] = useState({
         username: "",
         password: "",
         role: "patient"
-      });
+    });
+
     const [patient, setPatient] = useState({
         firstName: '',
         lastName: '',
@@ -24,7 +26,6 @@ const PatientRegistrationForm = () => {
         state: '',
         postalCode: '',
         country: '',
-
         medicalHistory: '',
         allergies: '',
         currentMedications: '',
@@ -42,17 +43,14 @@ const PatientRegistrationForm = () => {
         ethnicity: ''
     });
     
-
     const handleUserData = (e) => {
         setNewUser({ ...newUser, [e.target.name]: e.target.value });
-      };
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setPatient({ ...patient, [name]: value });
     };
-
-    
 
     const cleanData = (data) => {
         for (const key in data) {
@@ -80,7 +78,7 @@ const PatientRegistrationForm = () => {
         }
 
         $.ajax({
-            url: 'http://localhost:3000/patients/create',
+            url: `${server_url}/patients/create`,
             method: 'POST',
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -101,7 +99,7 @@ const PatientRegistrationForm = () => {
     return (
         <div className='patient-registration'>
             <PageHeader  title="Registration Form" backPath="/patient-management"  />
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='input-fields'>
                 <label>
                     First Name:
                     <input type="text" name="firstName" value={patient.firstName} onChange={handleChange} />
@@ -163,15 +161,6 @@ const PatientRegistrationForm = () => {
                     Password:
                     <input type="text" name="password" value={newUser.password} onChange={handleUserData} />
                 </label>
-                {/* <label>
-                    <select name="role" value={newUser.role} onChange={handleUserData} required>
-                        <option value="patient">Patient</option>
-                        <option value="super-admin">Super Admin</option>
-                        <option value="admin">Admin</option>
-                        <option value="doctor">Doctor</option>
-                        <option value="nurse">Nurse</option>
-                    </select>
-                </label> */}
                 <label>
                     Medical History:
                     <textarea name="medicalHistory" value={patient.medicalHistory} onChange={handleChange}></textarea>

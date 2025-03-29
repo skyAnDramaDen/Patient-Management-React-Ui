@@ -1,7 +1,10 @@
 .header {
     padding: 20px 30px;
-    height: 70px;
-    background: #011627;
+    /* height: 70px; */
+    height: auto;
+    /* background: #011627; */
+    /* background: #3F418D; */
+    background: #00246B;
     color: white;
     display: flex;
     justify-content: space-between;
@@ -9,7 +12,8 @@
     padding: 10px 20px;
     color: white;
     /* height: 50px; */
-    color: white !important; 
+    color: white !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .hamburger {
@@ -33,4 +37,10 @@
     color: white;
     align-self: center;
     justify-self: center;
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 10px;
+    }
 }

@@ -5,7 +5,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import $ from "jquery";
 import PageHeader from "../PageHeader/PageHeader";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export default function ViewFloor() {
     const navigate = useNavigate();
@@ -16,6 +15,7 @@ export default function ViewFloor() {
     const [wardAdded, setWardAdded] = useState(false);
 
     const [wardName, setWardName] = useState();
+    const server_url = process.env.REACT_APP_API_URL;
 
 
     useEffect(() => {
@@ -53,14 +53,13 @@ export default function ViewFloor() {
             floor_id = location.state.floor.id;
         }
         $.ajax({
-            url: `http://localhost:3000/floors/get-floor-wards-by/${floor_id}`,
+            url: `${server_url}/floors/get-floor-wards-by/${floor_id}`,
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
             },
             success: function(response) {
-                // console.log(response);
                 setWards(response.wards);
             },
             error: function(error) {
@@ -83,7 +82,7 @@ export default function ViewFloor() {
         console.log(JSON.stringify(payload));
 
         $.ajax({
-            url: "http://localhost:3000/wards/create",
+            url: `${server_url}/wards/create`,
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -107,7 +106,7 @@ export default function ViewFloor() {
         if (userConfirmed) {
 
             $.ajax({
-                url: `http://localhost:3000/floors/delete/${floor.id}`,
+                url: `${server_url}/floors/delete/${floor.id}`,
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -148,7 +147,7 @@ export default function ViewFloor() {
 
         {
             showInput && (
-                <div>
+                <div className="input-button">
                     <input
                     value={wardName}
                     type="text"

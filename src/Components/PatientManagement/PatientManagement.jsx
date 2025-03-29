@@ -17,7 +17,7 @@ const PatientManagement = () => {
         <Link to="/patients" className="action-button">📋 Patients</Link>
         <Link to="/patient-registration" className="action-button">➕ Register Patient</Link>
         <Link to="/medical-records" className="action-button">📄 Medical Records</Link>
-        <Link to="/billing" className="action-button">💳 Billing & Payments</Link>
+        {/* <Link to="/billing" className="action-button">💳 Billing & Payments</Link> */}
         <Link to="/lab-tests" className="action-button">🧪 Lab Tests & Reports</Link>
       </div>
     </div>

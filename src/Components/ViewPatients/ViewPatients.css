@@ -1,13 +1,5 @@
-/* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* View Patients Container */
 .view-patients {
-    padding: 30px;
+    padding: 20px;
     max-width: auto;
     margin: 0 auto;
 }
@@ -21,10 +13,9 @@
     text-align: center;
 }
 
-/* Top View (for back button and other controls) */
 .top-view {
     display: flex;
-    justify-content: flex-start; /* Aligns content to the left */
+    justify-content: flex-start; 
     align-items: center;
     margin-bottom: 20px;
 }
@@ -33,18 +24,7 @@
     margin: 0 auto;
 }
 
-/* Back Button */
-.back-button {
-    padding: 10px 20px;
-    background: #265A93;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
+
 
 .back-button:hover {
     background: #1c476d;
@@ -61,19 +41,18 @@
 .patient-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px; /* Reduced gap to reduce space between cards */
-    justify-content: flex-start; /* Ensure items start from the leftmost edge */
-    align-items: flex-start; /* Align items to the top */
+    gap: 10px; 
+    justify-content: flex-start; 
+    align-items: flex-start; 
     padding: 10px;
 }
 
-/* Patient Card */
 .patient-card {
     background: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin: 5px; /* Reduced margin to further reduce space between cards */
+    margin: 5px;
     width: 250px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -83,7 +62,39 @@
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Responsive Design */
+.pagination-btns {
+    display: flex;
+}
+
+.pagination-btns button {
+    max-width: 200px;
+    height: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    line-height: 1;
+}
+
+.pagination-control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pagination-btns span {
+    width: 250px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    line-height: 1;
+    margin: 5px;
+}
+
+
 @media (max-width: 768px) {
     .patient-list {
         flex-direction: column;
