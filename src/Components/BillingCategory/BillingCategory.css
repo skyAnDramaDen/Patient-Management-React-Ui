@@ -78,3 +78,8 @@
   .billing-category-inputs select {
     width: 200px;
   }
+
+  .select--btn-div {
+    display: flex;
+    justify-content: center;
+  }

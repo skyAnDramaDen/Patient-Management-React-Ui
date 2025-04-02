@@ -17,6 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const AppContent = () => {
+  const { user } = useContext(AuthContext);
   const { isLoggedIn, role } = useContext(AuthContext);
   const [showNav, setShowNav] = useState(false);
 
@@ -99,7 +100,9 @@ const AppContent = () => {
           <Header showNav={showNav} setShowNav={setShowNav} ref={menuBurgerRef}/>
           {/* <NavBar /> */}
           
-         <Sidebar show={showNav} setShowNav={setShowNav}  ref={sidebarRef} />
+         {
+          user && user.role == "super-admin" ? <Sidebar show={showNav} setShowNav={setShowNav}  ref={sidebarRef} /> : <p></p>
+         }
           
           <BodyContent />
           {/* <Footer /> */}

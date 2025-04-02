@@ -1,3 +1,77 @@
 .discharge-patient {
     padding: 20px;
 }
+
+/* Table Structure */
+.billing-categories-table {
+    width: 100%;
+    border-collapse: collapse; /* Ensures borders merge */
+    border: 1px solid #e0e0e0; /* Outer border */
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    table-layout: fixed; /* Ensures consistent column widths */
+  }
+  
+  /* Header */
+  .table-header {
+    background-color: #4a6fa5;
+    color: white;
+  }
+  
+  .table-header th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+    border-right: 1px solid #e0e0e0; /* Vertical lines */
+  }
+  
+  .table-header th:last-child {
+    border-right: none; /* Remove last vertical line */
+  }
+  
+  /* Body */
+  .table-body td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0; /* Horizontal lines */
+    border-right: 1px solid #e0e0e0; /* Vertical lines */
+    vertical-align: middle; /* Perfect center alignment */
+  }
+  
+  .table-body tr:last-child td {
+    border-bottom: none; /* Remove last row's bottom border */
+  }
+  
+  .table-body td:last-child {
+    border-right: none; /* Remove last column's vertical line */
+  }
+  
+  /* Column Widths */
+  .col-id { width: 8%; }
+  .col-name { width: 20%; }
+  .col-rate { width: 12%; }
+  .col-desc { width: 45%; }
+  .col-code { width: 15%; }
+  
+  /* Alignment Fixes */
+  .col-rate {
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    padding-right: 20px; /* Extra padding for monetary values */
+  }
+  
+  /* Zebra Striping (Optional) */
+  .table-body tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Hover Effect */
+  .table-row:hover td {
+    background-color: #f0f6ff;
+  }
+  
+  /* Cell Content Alignment */
+  .cell {
+    vertical-align: middle;
+    height: 48px; /* Fixed row height */
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }

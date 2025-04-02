@@ -52,6 +52,10 @@ function BillingCategory() {
 		});
 	};
 
+	useEffect(() => {
+		console.log(editing);
+	}, [editing]);
+
 	const handleCategorySave = () => {
 		if (
 			!categoryData.name.trim() ||
@@ -68,14 +72,13 @@ function BillingCategory() {
 			categoryData.description != null &&
 			group != null
 		) {
-
 			const payload = {
 				categoryData: categoryData,
-				group: group
-			}
+				group: group,
+			};
 
 			console.log(payload);
-			
+
 			$.ajax({
 				url: `${server_url}/billingCategory/create`,
 				method: "POST",
@@ -111,6 +114,7 @@ function BillingCategory() {
 	};
 
 	const handleSave = async () => {
+		console.log(editing);
 		let item_id;
 		const updatedData = billingCategories.map((item) => {
 			if (item.id === editing.rowId) {
@@ -189,7 +193,6 @@ function BillingCategory() {
 	const handleGroupingChange = (e) => {
 		console.log(e.target.value);
 		setGroup(e.target.value);
-
 	};
 
 	return (
@@ -293,13 +296,33 @@ function BillingCategory() {
 										item.description
 									)}
 								</td>
-								<button
-									className="category-delete-btn"
-									onClick={() => {
-										handleCategoryDelete(item.id);
-									}}>
-									Delete
-								</button>
+								<div className="select--btn-div">
+									<select
+										onChange={(e) => {
+											const updatedCategories = billingCategories.map(
+												(category) =>
+													category.id === item.id
+														? { ...category, code: e.target.value }
+														: category
+											);
+											setBillingCategories(updatedCategories);
+											handleEdit(item.id, "code", e.target.value)
+										}}
+										value={item.code}>
+										<option value="">Select a grouping</option>
+										<option value="admission_fees">Admission Fees</option>
+										<option value="consultation_fees">Consultation Fees</option>
+										<option value="ward_charges">Ward Fees</option>
+										<option value="miscellaneous">Miscellaneous Fees</option>
+									</select>
+									<button
+										className="category-delete-btn"
+										onClick={() => {
+											handleCategoryDelete(item.id);
+										}}>
+										Delete
+									</button>
+								</div>
 							</tr>
 						))}
 				</tbody>
