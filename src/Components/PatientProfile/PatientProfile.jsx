@@ -36,7 +36,6 @@ const PatientProfile = () => {
 
     useEffect(() => {
         if (state_patient) {
-            console.log(state_patient);
             setPatient(state_patient);
         }
     }, [])
@@ -60,15 +59,12 @@ const PatientProfile = () => {
           },
           data: JSON.stringify(formData),
           success: function(response) {
-              console.log('Patient updated successfully!', response);
               navigate('/patient-profile', { state: { patient: response } });
           },
           error: function(error) {
-              console.error('There was an error updating  the patient!', error);
               alert('Failed to create patient.');
           }
         });
-        console.log("Saving patient data:", formData);
         
         setIsSaveDisabled(true);
         alert("Patient details saved successfully!");
@@ -88,7 +84,7 @@ const PatientProfile = () => {
             <div className="top-view">
                 <button
                     className="back-button"
-                    onClick={() => navigate("/patients")} // Navigate back to Patient Management page
+                    onClick={() => navigate("/patients")}
                 >
                     🔙 Back
                 </button>
@@ -165,7 +161,6 @@ const PatientProfile = () => {
                     />
                 </div>
 
-                {/* Contact Information */}
                 <div>
                     <label>Phone:</label>
                     <input
@@ -216,7 +211,6 @@ const PatientProfile = () => {
                     </>
                 )}
 
-                {/* Medical History */}
                 {patient.chronicConditions && (
                     <div>
                         <label>Chronic Conditions:</label>
@@ -272,7 +266,6 @@ const PatientProfile = () => {
                     </div>
                 )}
 
-                {/* Insurance Information */}
                 {patient.insurance && (
                     <>
                         <div>
@@ -304,7 +297,6 @@ const PatientProfile = () => {
                     </>
                 )}
 
-                {/* Save Button */}
                 <button
                     type="button"
                     onClick={handleSave}

@@ -24,45 +24,6 @@ const AppContent = () => {
   const sidebarRef = useRef(null);
   const menuBurgerRef = useRef(null);
 
-  const renderContent = () => {
-    switch (role) {
-      case 'super-admin':
-        return (
-          <>
-            <NavBar />
-            <BodyContent />
-            <Footer />
-          </>
-        );
-      case 'admin':
-        return (
-          <>
-            <NavBar />
-            {/* <AdminMenu /> */}
-            <Footer />
-          </>
-        );
-      case 'doctor':
-        return (
-          <>
-            <NavBar />
-            <DoctorMenu />
-            <Footer />
-          </>
-        );
-      case 'nurse':
-        return (
-          <>
-            <NavBar />
-            {/* <NurseMenu /> */}
-            <Footer />
-          </>
-        );
-      default:
-        return <Login />;
-    }
-  };
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       //the event below at first would immediately turn showNav false
@@ -100,9 +61,7 @@ const AppContent = () => {
           <Header showNav={showNav} setShowNav={setShowNav} ref={menuBurgerRef}/>
           {/* <NavBar /> */}
           
-         {
-          user && user.role == "super-admin" ? <Sidebar show={showNav} setShowNav={setShowNav}  ref={sidebarRef} /> : <p></p>
-         }
+          <Sidebar show={showNav} setShowNav={setShowNav}  ref={sidebarRef} />
           
           <BodyContent />
           {/* <Footer /> */}

@@ -15,7 +15,7 @@ const ViewPatients = () => {
 	const [selectedPatient, setSelectedPatient] = useState(null);
 	const [totalRecords, setTotalRecords] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
-	const pageSize = 2;
+	const pageSize = 10;
 	const server_url = process.env.REACT_APP_API_URL;
 
 	const totalPages = Math.ceil(totalRecords / pageSize);

@@ -32,14 +32,14 @@ function BillingCategory() {
 			url: `${server_url}/billingCategory/`,
 			method: "GET",
 			headers: {
-				Authorization: `Bearer ${localStorage.getItem("token")}`,
+				"Authorization": `Bearer ${localStorage.getItem("token")}`,
 				"Content-Type": "application/json",
 			},
 			success: function (response) {
 				setBillingCategories(response);
 			},
 			error: function (error) {
-				console.log(error);
+				
 			},
 		});
 	}, []);
@@ -52,17 +52,12 @@ function BillingCategory() {
 		});
 	};
 
-	useEffect(() => {
-		console.log(editing);
-	}, [editing]);
-
 	const handleCategorySave = () => {
 		if (
 			!categoryData.name.trim() ||
 			!categoryData.rate.trim() ||
 			!categoryData.description.trim()
 		) {
-			console.error("All fields must be filled before saving.");
 			toast.error("Please fill in all fields before saving.");
 			return;
 		} else if (
@@ -77,13 +72,11 @@ function BillingCategory() {
 				group: group,
 			};
 
-			console.log(payload);
-
 			$.ajax({
 				url: `${server_url}/billingCategory/create`,
 				method: "POST",
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
+					"Authorization": `Bearer ${localStorage.getItem("token")}`,
 					"Content-Type": "application/json",
 				},
 				data: JSON.stringify(payload),
@@ -101,7 +94,7 @@ function BillingCategory() {
 					setAddingBillingCategory(!addingBillingCategory);
 				},
 				error: function (error) {
-					console.log(error);
+					
 				},
 			});
 		} else if (isNaN(categoryData.rate)) {
@@ -114,7 +107,6 @@ function BillingCategory() {
 	};
 
 	const handleSave = async () => {
-		console.log(editing);
 		let item_id;
 		const updatedData = billingCategories.map((item) => {
 			if (item.id === editing.rowId) {
@@ -141,15 +133,15 @@ function BillingCategory() {
 			url: `${server_url}/billingCategory/update/${item_id}`,
 			method: "POST",
 			headers: {
-				Authorization: `Bearer ${localStorage.getItem("token")}`,
+				"Authorization": `Bearer ${localStorage.getItem("token")}`,
 				"Content-Type": "application/json",
 			},
 			data: JSON.stringify(payload),
 			succes: function (response) {
-				// console.log(response);
+				
 			},
 			error: function (error) {
-				console.log(error);
+				
 			},
 		});
 	};
@@ -163,7 +155,6 @@ function BillingCategory() {
 	};
 
 	const handleCategoryDelete = (item_id) => {
-		console.log();
 		const confirmDelete = window.confirm(
 			"Are you sure you want to delete this category?"
 		);
@@ -173,17 +164,16 @@ function BillingCategory() {
 				url: `${server_url}/billingCategory/delete/${item_id}`,
 				method: "GET",
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
+					"Authorization": `Bearer ${localStorage.getItem("token")}`,
 					"Content-Type": "application/json",
 				},
 				success: function (response) {
-					console.log(response);
 					setBillingCategories((prevCategories) =>
 						prevCategories.filter((category) => category.id !== item_id)
 					);
 				},
 				error: function (error) {
-					console.log(error);
+					
 				},
 			});
 		} else {
@@ -191,7 +181,6 @@ function BillingCategory() {
 	};
 
 	const handleGroupingChange = (e) => {
-		console.log(e.target.value);
 		setGroup(e.target.value);
 	};
 

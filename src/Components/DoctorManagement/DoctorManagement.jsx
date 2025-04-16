@@ -3,6 +3,9 @@ import { useLocation, useNavigate, Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import $ from 'jquery';
 import PageHeader from "../PageHeader/PageHeader";
+import DatePicker from "react-multi-date-picker";
+import TimePicker from "react-multi-date-picker/plugins/time_picker";
+
 
 const DoctorManagement = () => {
     const server_url = process.env.REACT_APP_API_URL;
@@ -14,28 +17,13 @@ const DoctorManagement = () => {
     const [selectedStartTime, setSelectedStartTime] = useState("");
     const [selectedEndTime, setSelectedEndTime] = useState("");
 
-    // useEffect(() => {
-    //     const now = new Date(Date.now());
-        
-    //     $.ajax({
-    //         url: 'http://localhost:3000/doctors',
-    //         method: 'GET',
-    //         headers: {
-    //             "Authorization": `Bearer ${localStorage.getItem("token")}`,
-    //             "Content-Type": "application/json"
-    //         },
-    //         success: function(response) {
-    //             setDoctors(response);
-    //         },
-    //         error: function(error) {
-    //             console.error('There was an error fetching the doctors!', error);
-    //         }
-    //     });
-        
-    // }, []);
+    const [scheduleData, setScheduleData] = useState({
+        date: "",
+        startTime: "",
+        endTime: ""
+    });
 
     useEffect(() => {
-        const now = new Date(Date.now());
         $.ajax({
             url: `${server_url}/doctors`,
             method: 'GET',
@@ -45,7 +33,6 @@ const DoctorManagement = () => {
             },
             data: JSON.stringify(),
             success: function(response) {
-                console.log(response);
                 setDoctors(response);
                 
             },
@@ -54,12 +41,6 @@ const DoctorManagement = () => {
             }
         });
     }, [])
-
-    useEffect(() => {
-        if (doctors) {
-            console.log(doctors)
-        }
-    }, [doctors])
 
     const handleDoctorClick = (doctor) => {
         setSelectedDoctor(doctor);
@@ -70,6 +51,8 @@ const DoctorManagement = () => {
         setSelectedDate(e.target.value);
         setSelectedStartTime("");
         setSelectedEndTime("");
+        // setScheduleData(prev => ({ ...prev, date: date.format("YYYY-MM-DD") }));
+
     };
 
     const handleStartTimeChange = (e) => {
@@ -93,8 +76,6 @@ const DoctorManagement = () => {
     };
 
     const timeOptions = React.useMemo(() => generateTimeOptions(), []);
-    
-    // console.log(timeOptions);
 
     const handleSaveNewSchedule = () => {
         if (!selectedDate || (!selectedStartTime && !selectedEndTime)) {
@@ -130,7 +111,6 @@ const DoctorManagement = () => {
             },
             data: JSON.stringify(scheduleEntry),
             success: function(response) {
-                console.log('New schedule added successfully:', response);
                 setSchedule([...schedule, response]);
 
                 setSelectedDate("");
@@ -138,7 +118,6 @@ const DoctorManagement = () => {
                 setSelectedStartTime("");
             },
             error: function(error) {
-                console.error('Error adding new schedule', error);
                 alert('Failed to add schedule.');
             }
         });

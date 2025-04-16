@@ -55,7 +55,7 @@ const ViewDoctor = () => {
   }
 
   return (
-    <div class="view-doctor">
+    <div className="view-doctor">
       <PageHeader  title="Doctor Schedule"/>
       {schedules.length === 0 ? (
         <p>No schedules available for this doctor.</p>

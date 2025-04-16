@@ -147,7 +147,7 @@ function AdmitPatient() {
 				data: JSON.stringify(payload),
 				success: function (response) {
 					console.log(response);
-					if (response.admission) {
+					if (response.admission.status == "admitted") {
 						setAdmitted(true);
 					}
 				},
@@ -176,7 +176,8 @@ function AdmitPatient() {
 					"Content-Type": "application/json",
 				},
 				success: function (response) {
-					if (response) {
+					console.log(response);
+					if (response.status == "admitted") {
 						setAdmitted(true);
 					}
 				},

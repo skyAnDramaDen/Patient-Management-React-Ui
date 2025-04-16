@@ -35,11 +35,11 @@ function Billing() {
   return (
     <div className="billing">
       <PageHeader title="Billing" />
-      <button
+      {/* <button
       onClick={handlePayment}
       >
         Pay
-      </button>
+      </button> */}
       <Link
       to="/billing-category"
       >
