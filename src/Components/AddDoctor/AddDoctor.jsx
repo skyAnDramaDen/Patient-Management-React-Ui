@@ -2,6 +2,7 @@ import "./AddDoctor.css";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import $ from 'jquery';
+import PageHeader from "../PageHeader/PageHeader";
 
 const AddDoctorForm = () => {
   const server_url = process.env.REACT_APP_API_URL;
@@ -90,12 +91,8 @@ const AddDoctorForm = () => {
 
   return (
     <div className="add-doctor">
-      <div className="top-view">
-        <button className="back-button" onClick={() => navigate(-1)}>
-          🔙 Back
-        </button>
-        <h2>Add Doctor</h2>
-      </div>
+      <PageHeader title="Add Doctor" backPath="/staff/doctors" />
+      
       <form onSubmit={handleSubmit} className="add-doctor-form">
         <h3>Add Doctor</h3>
         <input type="text" name="firstName" placeholder="First Name" value={doctor.firstName} onChange={handleChange} required />

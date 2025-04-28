@@ -1,5 +1,5 @@
 
-.doctor-management {
+.nurse-management {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -18,7 +18,7 @@
     /* overflow: hidden; */
 }
 
-.sidebar {
+.sidebar3 {
     width: 250px;
     /* background-color: #265A93; */
     color: black;
@@ -28,12 +28,12 @@
     gap: 20px;
 }
 
-.sidebar h3 {
+.sidebar3 h3 {
     font-size: 1.5em;
     /* margin-bottom: 10px; */
 }
 
-.sidebar button {
+.sidebar3 button {
     background-color: #ff5722;
     color: white;
     border: none;
@@ -44,21 +44,21 @@
     font-size: 1em;
 }
 
-.sidebar button:hover {
+.sidebar3 button:hover {
     background-color: #e64a19;
 }
 
-.sidebar ul {
+.sidebar3 ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
     /* gap: 10px; */
-    padding-top: 5px;
+    /* padding-top: 5px; */
 }
 
-.sidebar ul li {
+.sidebar3 ul li {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -72,11 +72,11 @@
     height: auto;
 }
 
-.sidebar ul li:hover {
+.sidebar3 ul li:hover {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-.sidebar ul li button {
+.sidebar3 ul li button {
     background-color: transparent;
     border: 1px solid white;
     padding: 5px 10px;
@@ -85,7 +85,7 @@
     transition: background-color 0.3s ease;
 }
 
-.sidebar ul li button:hover {
+.sidebar3 ul li button:hover {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -311,32 +311,9 @@ th {
     margin-right: 10px;
 }
 
-.scrollable-side-list {
+.scrollable-list {
     max-height: 80vh;
     overflow-y: auto;
     border: 1px solid #ccc;
     padding: 10px;
-}
-
-
-.view-filtered-doc-btn {
-    width: auto;
-}
-
-.week-select-div {
-    display: flex;
-    align-items: center;
-}
-
-.dm-next-btn {
-    width: auto;
-    margin-right: 5px;
-    height: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.for-week-strong-el {
-    margin-right: 5px;
 }

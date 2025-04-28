@@ -89,6 +89,8 @@ const AuthProvider = ({ children }) => {
       navigate("/");
     } else if (role == "doctor") {
       navigate("/doctor-home");
+    } else if (role == "nurse") {
+      navigate("/nurse-home");
     }
   };
 

@@ -42,6 +42,12 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Settings from "../Settings/Settings";
 import ViewAppointment from "../ViewAppointment/ViewAppointment";
 import RescheduleAppointment from "../RescheduleAppointment/RescheduleAppointment";
+import NurseManagement from "../NurseManagement/NurseManagement";
+import AddNurse from "../AddNurse/AddNurse";
+import ViewNurse from "../ViewNurse/ViewNurse";
+import NurseHome from "../NurseHome/NurseHome";
+import NurseProfile from "../NurseProfile/NurseProfile";
+import ViewNurseSchedules from "../ViewNurseSchedules/ViewNurseSchedules";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
@@ -102,22 +108,40 @@ export default function BodyContent() {
 			<div className="content-div">
 				<Routes>
 					<Route path="/" element={<HomePage />}></Route>
+
 					<Route
-						path="/patient-registration"
-						element={<PatientRegistrationForm />}>
-						Home
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin", "nurse"]} />
+						}>
+						<Route path="/patient-registration" element={<PatientRegistrationForm />} />
 					</Route>
-					<Route path="/patient-management" element={<PatientManagement />}>
-						Patient Management
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin", "nurse"]} />
+						}>
+						<Route path="/patient-management" element={<PatientManagement />} />
 					</Route>
-					<Route path="/patients" element={<ViewPatients />}>
-						View Patients
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin", "nurse"]} />
+						}>
+						<Route path="/patients" element={<ViewPatients />} />
 					</Route>
-					<Route path="/patient-profile" element={<PatientProfile />}>
-						Patient Profile
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin", "nurse"]} />
+						}>
+						<Route path="/patient-profile" element={<PatientProfile />} />
 					</Route>
-					<Route path="/staff-management" element={<StaffManagement />}>
-						Staff Management
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin"]} />
+						}>
+						<Route path="/staff-management" element={<StaffManagement />} />
 					</Route>
 					<Route
 						element={
@@ -154,42 +178,97 @@ export default function BodyContent() {
 						<Route path="/staff/doctors" element={<DoctorManagement />} />
 					</Route>
 
-					<Route path="/staff/doctors/add" element={<AddDoctorForm />}>
-						Add Doctors
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin"]} />
+						}>
+						<Route path="/staff/doctors/add" element={<AddDoctorForm />} />
 					</Route>
-					<Route path="/doctor-profile" element={<DoctorProfile />}>
-						Profile
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin"]} />
+						}>
+						<Route path="/doctor-profile" element={<DoctorProfile />} />
 					</Route>
-					<Route path="/doctor-home" element={<DoctorHome />}>
-						Home (Doctor)
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin", "doctor"]} />
+						}>
+						<Route path="/doctor-home" element={<DoctorHome />} />
 					</Route>
-					<Route path="/appointment-details" element={<AppointmentDetails />}>
-						Appointment Details
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin", "nurse"]} />
+						}>
+						<Route path="/appointment-details" element={<AppointmentDetails />} />
 					</Route>
-					<Route path="/view-doctor-schedule" element={<ViewDoctor />}>
-						View Doctor
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin"]} />
+						}>
+						<Route path="/view-doctor-schedule" element={<ViewDoctor />} />
 					</Route>
-					<Route path="/home-chat" element={<HomeChat />}>
-						Chat (Home)
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin"]} />
+						}>
+						<Route path="/staff/nurses" element={<NurseManagement />} />
 					</Route>
-					<Route path="/doctor-chat" element={<DoctorChat />}>
-						Chat (Doctor)
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin"]} />
+						}>
+						<Route path="/home-chat" element={<HomeChat />} />
 					</Route>
-					<Route path="/medical-records" element={<MedicalRecords />}>
-						Medical Records
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "doctor"]} />
+						}>
+						<Route path="/doctor-chat" element={<DoctorChat />} />
 					</Route>
-					<Route path="/patient-medical-record" element={<MedicalRecord />}>
-						Medical Record
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "doctor", "nurse", "admin"]} />
+						}>
+						<Route path="/medical-records" element={<MedicalRecords />} />
 					</Route>
-					<Route path="/view-floors" element={<ViewFloors />}>
-						Floors
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "doctor", "nurse", "admin"]} />
+						}>
+						<Route path="/patient-medical-record" element={<MedicalRecord />} />
 					</Route>
-					<Route path="/view-floor" element={<ViewFloor />}>
-						Floor
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin"]} />
+						}>
+						<Route path="/view-floors" element={<ViewFloors />} />
 					</Route>
-					<Route path="/view-ward" element={<ViewWard />}>
-						Ward
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin"]} />
+						}>
+						<Route path="/view-floor" element={<ViewFloor />} />
 					</Route>
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin"]} />
+						}>
+						<Route path="/view-ward" element={<ViewWard />} />
+					</Route>
+					
 					<Route path="/billing-and-payment" element={<Billing />}>
 						Billing
 					</Route>
@@ -226,6 +305,41 @@ export default function BodyContent() {
 					</Route>
 					<Route path="/view-appointment" element={<ViewAppointment />}>
 						View Appointment (Doctor)
+					</Route>
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin"]} />
+						}>
+						<Route path="/add-nurse" element={<AddNurse />} />
+					</Route>
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin"]} />
+						}>
+						<Route path="/view-nurse-schedule" element={<ViewNurse />} />
+					</Route>
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin", "nurse"]} />
+						}>
+						<Route path="/nurse-home" element={<NurseHome />} />
+					</Route>
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin"]} />
+						}>
+						<Route path="/nurse-profile" element={<NurseProfile />} />
+					</Route>
+
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={["super-admin", "admin", "nurse"]} />
+						}>
+						<Route path="/nurse/view-nurse-schedules" element={<ViewNurseSchedules />} />
 					</Route>
 				</Routes>
 			</div>

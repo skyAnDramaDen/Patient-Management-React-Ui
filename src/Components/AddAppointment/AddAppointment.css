@@ -6,12 +6,13 @@
 
 .form-group {
   margin-bottom: 20px;
+  margin-right: 10px;
 }
 
 input[type="text"], input[type="datetime-local"], select {
   width: 100%;
   padding: 10px;
-  margin-top: 5px;
+  /* margin-top: 5px; */
 }
 
 .dropdown {
@@ -48,4 +49,16 @@ input[type="text"], input[type="datetime-local"], select {
   display: flex;
   /* align-items: center; */
   justify-content: center;
+}
+
+.date-time-div {
+  display: flex;
+}
+
+.search-div {
+  margin: 10px 0;
+}
+
+.sub-div {
+  max-width: 400px;
 }

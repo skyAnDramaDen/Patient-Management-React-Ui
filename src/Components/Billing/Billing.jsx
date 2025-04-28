@@ -34,7 +34,7 @@ function Billing() {
     }
   return (
     <div className="billing">
-      <PageHeader title="Billing" />
+      <PageHeader title="Billing" backPath="/"/>
       {/* <button
       onClick={handlePayment}
       >

@@ -13,18 +13,18 @@ const AddAppointment = () => {
 	const [patientSearch, setPatientSearch] = useState("");
 	const [patients, setPatients] = useState([]);
 	const [selectedPatient, setSelectedPatient] = useState(null);
-	const [appointmentDate, setAppointmentDate] = useState("");
+	const [appointmentDate, setAppointmentDate] = useState();
 	const [appointmentTime, setAppointmentTime] = useState("");
 	const [doctors, setDoctors] = useState([]);
 	const [selectedDoctor, setSelectedDoctor] = useState(null);
 
 	useEffect(() => {
-		if (patientSearch.length > 1) {
+		if (patientSearch.length > 2) {
 			$.ajax({
 				url: `${server_url}/patients/get-patients-by-name?search=${patientSearch}`,
 				method: "GET",
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
+					"Authorization": `Bearer ${localStorage.getItem("token")}`,
 					"Content-Type": "application/json",
 				},
 				success: function (data) {
@@ -35,7 +35,6 @@ const AddAppointment = () => {
 					}
 				},
 				error: function (err) {
-					console.error("Error fetching patients:", err);
 					setPatients([]);
 				},
 			});
@@ -46,15 +45,15 @@ const AddAppointment = () => {
 
 	useEffect(() => {
 		if (appointmentDate != null) {
+			console.log(appointmentDate)
 			$.ajax({
 				url: `${server_url}/doctors/scheduled-for/${appointmentDate}`,
 				method: "GET",
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
+					"Authorization": `Bearer ${localStorage.getItem("token")}`,
 					"Content-Type": "application/json",
 				},
 				success: function (data) {
-					console.log(data);
 					if (Array.isArray(data)) {
 						setDoctors(data);
 					} else {
@@ -62,7 +61,6 @@ const AddAppointment = () => {
 					}
 				},
 				error: function (err) {
-					console.error("Error fetching patients:", err);
 					setPatients([]);
 				},
 			});
@@ -111,6 +109,8 @@ const AddAppointment = () => {
 				console.error(error);
 				if (error.status == 400) {
 					toast.error("Appointment cannot be set as patient is admitted.");
+				} else if (error.status == 409) {
+					toast.error("Patient already has a scheduled appointment");
 				}
 				return;
 			},
@@ -121,80 +121,86 @@ const AddAppointment = () => {
 		<div className="add-appointment">
 			<PageHeader title="➕ Add New Appointment" />
 
-			<div className="form-group">
-				<label>Search Patient:</label>
-				<input
-					type="text"
-					value={patientSearch}
-					onChange={(e) => setPatientSearch(e.target.value)}
-					placeholder="Enter patient name..."
-				/>
-				{Array.isArray(patients) && patients.length > 0 && (
-					<ul className="dropdown">
-						{patients.map((p) => (
-							<li key={p.id} onClick={() => handlePatientSelect(p)}>
-								{p.firstName + " " + p.lastName}
-							</li>
-						))}
-					</ul>
-				)}
-				{Array.isArray(patients) &&
-					patients.length === 0 &&
-					patientSearch.length > 1 && (
+			<div className="sub-div">
+				<div className="search-div">
+					<label>Search Patient:</label>
+					<input
+						type="text"
+						value={patientSearch}
+						onChange={(e) => setPatientSearch(e.target.value)}
+						placeholder="Enter patient name..."
+					/>
+					{Array.isArray(patients) && patients.length > 0 && (
 						<ul className="dropdown">
-							<li>No patients found</li>
+							{patients.map((p) => (
+								<li key={p.id} onClick={() => handlePatientSelect(p)}>
+									{p.firstName + " " + p.lastName}
+								</li>
+							))}
 						</ul>
 					)}
-			</div>
-
-			{selectedPatient && (
-				<div className="selected-patient">
-					<p>
-						Patient Name:{" "}
-						{selectedPatient.firstName + " " + selectedPatient.lastName}
-					</p>
+					{Array.isArray(patients) &&
+						patients.length === 0 &&
+						patientSearch.length > 1 && (
+							<ul className="dropdown">
+								<li>No patients found</li>
+							</ul>
+					)}
 				</div>
-			)}
 
-			<div className="form-group">
-				<label>Select Date:</label>
-				<input
-					type="date"
-					value={appointmentDate}
-					onChange={(e) => setAppointmentDate(e.target.value)}
-				/>
-			</div>
+				{selectedPatient && (
+					<div className="selected-patient">
+						<p>
+							Patient Name:{" "}
+							{selectedPatient.firstName + " " + selectedPatient.lastName}
+						</p>
+					</div>
+				)}
 
-			<div className="form-group">
-				<label>Select Time:</label>
-				<input
-					type="time"
-					value={appointmentTime}
-					onChange={(e) => setAppointmentTime(e.target.value)}
-				/>
-			</div>
+				<div className="date-time-div">
+					<div className="form-group">
+						<label>Select Date:</label>
+						<input
+							type="date"
+							value={appointmentDate}
+							onChange={(e) => setAppointmentDate(e.target.value)}
+						/>
+					</div>
 
-			<div className="form-group">
-				<label>Select Doctor:</label>
-				<select
-					value={selectedDoctor?.id || ""}
-					onChange={(e) => {
-						const doc = doctors.find((d) => d.id === parseInt(e.target.value));
-						setSelectedDoctor(doc);
-					}}>
-					<option value="">Select a Doctor</option>
-					{doctors.map((doc) => (
-						<option key={doc.id} value={doc.id}>
-							Dr. {doc.firstName} - {doc.specialization}
-						</option>
-					))}
-				</select>
-			</div>
+					<div className="form-group">
+						<label>Select Time:</label>
+						<input
+							type="time"
+							value={appointmentTime}
+							onChange={(e) => setAppointmentTime(e.target.value)}
+						/>
+					</div>
+				</div>
 
-			<div className="add-appointment-div">
-				<button onClick={handleSubmit} className="add-appointment-btn">
-					✅ Save Appointment
-				</button>
+				<div className="form-group">
+					<label>Select Doctor:</label>
+					<select
+						value={selectedDoctor?.id || ""}
+						onChange={(e) => {
+							const doc = doctors.find(
+								(d) => d.id === parseInt(e.target.value)
+							);
+							setSelectedDoctor(doc);
+						}}>
+						<option value="">Select a Doctor</option>
+						{doctors.map((doc) => (
+							<option key={doc.id} value={doc.id}>
+								Dr. {doc.firstName} - {doc.specialization}
+							</option>
+						))}
+					</select>
+				</div>
+
+				<div className="add-appointment-div">
+					<button onClick={handleSubmit} className="add-appointment-btn">
+						✅ Save Appointment
+					</button>
+				</div>
 			</div>
 		</div>
 	);

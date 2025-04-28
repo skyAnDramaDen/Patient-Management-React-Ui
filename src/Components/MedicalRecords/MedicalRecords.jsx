@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import $ from "jquery";
 import PageHeader from "../PageHeader/PageHeader";
 import "./MedicalRecords.css";
+
+import AuthProvider, { AuthContext } from "../../Authcontext";
 
 export default function MedicalRecords() {
 	const [medicalRecords, setMedicalRecords] = useState([]);
@@ -12,6 +14,7 @@ export default function MedicalRecords() {
 	const [selectedDoctor, setSelectedDoctor] = useState(null);
 	const [selectedPatient, setSelectedPatient] = useState(null);
 	const server_url = process.env.REACT_APP_API_URL;
+	const { user } = useContext(AuthContext);
 
 	useEffect(() => {
 		if (patientSearch.length > 1) {
@@ -67,13 +70,14 @@ export default function MedicalRecords() {
 
 	return (
 		<div className="medical-records">
-			<PageHeader title="Medical Records" />
-			<p>Search for a patients name to view or modify medical records.</p>
+			<PageHeader title="Medical Records" backPath={user.role == "doctor" ? "/doctor-home" : user.role == "nurse" ? "/nurse-home" : "/"}/>
+			<p>Enter a patients name</p>
 			<input
 				type="text"
 				value={patientSearch}
 				onChange={(e) => setPatientSearch(e.target.value)}
 				placeholder="Enter patient name..."
+				className="medrecords-search-input"
 			/>
 			{Array.isArray(patients) && patients.length > 0 && (
 				<ul className="dropdown">

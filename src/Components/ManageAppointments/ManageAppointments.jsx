@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import PageHeader from "../PageHeader/PageHeader";
 import "./ManageAppointments.css";
 import $ from "jquery";
+
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import AuthProvider, { AuthContext } from "../../Authcontext";
 
 const ManageAppointments = () => {
 	const navigate = useNavigate();
@@ -12,6 +17,7 @@ const ManageAppointments = () => {
 	const [error, setError] = useState(null);
 	const [filter, setFilter] = useState("upcoming");
 	const server_url = process.env.REACT_APP_API_URL;
+    const { user } = useContext(AuthContext);
 
 	useEffect(() => {
 		const fetchAppointments = async () => {
@@ -80,9 +86,49 @@ const ManageAppointments = () => {
 		navigate("/reschedule-appointment", { state: { appointment: appt } });
 	};
 
+	const handleCancelAppointment = (appointment) => {
+		const confirmCancel = window.confirm(
+			"Are you sure you want to cancel the appointment?"
+		);
+
+		if (confirmCancel) {
+			try {
+				$.ajax({
+					url: `${server_url}/appointment/cancel-appointment/${appointment.id}`,
+					method: "POST",
+					headers: {
+						"Authorization": `Bearer ${localStorage.getItem("token")}`,
+						"Content-Type": "application/json",
+					},
+					success: function (response) {
+						// setAppointments(response);
+						if (response.success == true) {
+							toast.success("Appointment has been cancelled.");
+							if (response.id) {
+								setAppointments((prevSchedules) =>
+								prevSchedules.filter(
+									(schedule) => schedule.id !== response.id
+								)
+							);
+							}
+						}
+						
+					},
+					error: function (error) {
+						// setError(error.message || "Failed to fetch appointments");
+					},
+				});
+			} catch (err) {
+				setError(err.message || "Failed to cancel appointment");
+			} finally {
+				setLoading(false);
+			}
+		}
+	}
+
 	return (
 		<div className="manage-appointments">
-			<PageHeader title="Manage Appointments" />
+			<PageHeader title="Manage Appointments" backPath="/"/>
 
 			<div className="controls">
 				<div className="filter-controls">
@@ -149,11 +195,13 @@ const ManageAppointments = () => {
 										</span>
 									</td>
 									<td className="buttons-td">
-										<button
+										{
+											user && (user.role == "doctor" || user.role == "super-admin") && <button
 											className="view-btn"
 											onClick={() => handleViewDetails(appt)}>
 											View
 										</button>
+										}
 										<button
 										disabled={appt.status == "completed"}
 											onClick={() => {
@@ -162,6 +210,13 @@ const ManageAppointments = () => {
 											className="reschedule-appointment">
 											Reschedule
 										</button>
+										<button
+										disabled={appt.status == "completed"}
+										onClick={() => {
+											handleCancelAppointment(appt);
+										}}
+										className="reschedule-appointment"
+										>Cancel</button>
 									</td>
 								</tr>
 							))

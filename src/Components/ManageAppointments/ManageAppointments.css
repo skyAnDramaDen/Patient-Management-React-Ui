@@ -12,7 +12,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    margin-top: 5px;
   }
   
   .filter-controls {
@@ -143,6 +144,7 @@
     justify-content: center; 
     width: auto;
     height: 35px;
+    margin-right: 5px;
 }
 
 .buttons-td {

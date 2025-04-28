@@ -16,7 +16,7 @@
     display: flex;
     justify-content: flex-start; 
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .top-view h2 {
@@ -76,6 +76,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .pagination-btns span {
@@ -88,6 +89,10 @@
     line-height: 1;
     margin: 5px;
 }
+/* 
+.pagination-btn {
+    width: 150px;
+} */
 
 
 @media (max-width: 768px) {

@@ -1,18 +1,18 @@
 import "./RescheduleAppointment.css";
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect, } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import $ from "jquery";
 import PageHeader from "../PageHeader/PageHeader";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { toast, ToastContainer } from "react-toastify";
+import { toast, } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
 function RescheduleAppointment() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [appointment, setAppointment] = useState(location.state?.appointment || null);
+  const [appointment, setAppointment] = useState(location.state?.appointment);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
@@ -46,7 +46,6 @@ function RescheduleAppointment() {
 
   const handleRescheduleAppointment = () => {
     if (appointment && appointmentDate && appointmentTime && selectedDoctor) {
-      console.log("I have everything herer");
       const now = new Date();
       if (appointmentTime <= now) {
         toast.error("Appointment time has to be in the future.")

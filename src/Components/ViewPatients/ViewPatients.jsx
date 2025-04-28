@@ -112,6 +112,7 @@ const ViewPatients = () => {
 				<div className="pagination-control">
 				<div className="pagination-btns">
 					<button
+					 	className="pagination-btn"
 						onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
 						disabled={currentPage === 1}>
 						Previous
@@ -120,6 +121,7 @@ const ViewPatients = () => {
 						Page {currentPage} of {totalPages}
 					</span>
 					<button
+					 	className="pagination-btn"
 						onClick={() =>
 							setCurrentPage((prev) => Math.min(prev + 1, totalPages))
 						}

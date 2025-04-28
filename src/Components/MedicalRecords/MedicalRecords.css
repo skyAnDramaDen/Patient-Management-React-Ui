@@ -2,7 +2,6 @@
     padding: 20px;
 }
 
-/* General styling for the container */
 .record-card {
     background: linear-gradient(135deg, #ffffff, #f8f9fa);
     border: 1px solid #ddd;
@@ -13,13 +12,11 @@
     padding-left: 10px;
   }
   
-  /* Add a hover effect for cards */
   .record-card:hover {
     transform: scale(1.03);
     box-shadow: 0 6px 12px rgba(45, 45, 45, 0.15);
   }
   
-  /* Header styling */
   .record-header {
     color: #333;
     font-family: 'Arial', sans-serif;
@@ -28,7 +25,6 @@
     margin-bottom: 10px;
   }
   
-  /* Label styling for text */
   .record-label {
     color: #555;
     font-family: 'Verdana', sans-serif;
@@ -36,11 +32,13 @@
     margin-right: 5px;
   }
   
-  /* Add spacing between text and align */
   p {
     margin: 8px 0;
     font-family: 'Roboto', sans-serif;
     color: #444;
     line-height: 1.6;
   }
-  
+
+.medrecords-search-input {
+  margin-bottom: 5px;
+}

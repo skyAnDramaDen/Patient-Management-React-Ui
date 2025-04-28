@@ -21,11 +21,9 @@ function AdmitPatient() {
 	const [selectedWard, setSelectedWard] = useState(null);
 	const [floors, setFloors] = useState([]);
 	const [wards, setWards] = useState([]);
-	const [admissionType, setAdmissionType] = useState(false);
+	const [admissionType, setAdmissionType] = useState("standard");
 
 	const [reasonForAdmission, setReasonForAdmission] = useState();
-
-	// const [admission, setAdmission] = useState([]);
 
 	const handleBedChange = (e) => {
 		const selectedBedId = e.target.value;
@@ -98,12 +96,11 @@ function AdmitPatient() {
 			url: `${server_url}/admissions/get-beds-by-type`,
 			method: "POST",
 			headers: {
-				Authorization: `Bearer ${localStorage.getItem("token")}`,
+				"Authorization": `Bearer ${localStorage.getItem("token")}`,
 				"Content-Type": "application/json",
 			},
 			data: JSON.stringify(payload),
 			success: function (response) {
-				// console.log(response);
 				if (response) {
 					setAvailableBeds(response);
 				}
@@ -141,7 +138,7 @@ function AdmitPatient() {
 				url: `${server_url}/admissions/create`,
 				method: "POST",
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
+					"Authorization": `Bearer ${localStorage.getItem("token")}`,
 					"Content-Type": "application/json",
 				},
 				data: JSON.stringify(payload),
@@ -172,11 +169,10 @@ function AdmitPatient() {
 				url: `${server_url}/admissions/get-admission-by-patient/${location.state.patient.id}`,
 				method: "GET",
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
+					"Authorization": `Bearer ${localStorage.getItem("token")}`,
 					"Content-Type": "application/json",
 				},
 				success: function (response) {
-					console.log(response);
 					if (response.status == "admitted") {
 						setAdmitted(true);
 					}
@@ -225,7 +221,7 @@ function AdmitPatient() {
 					<select
 					
 					onChange={(e) => {handleAdmissionTypeChange(e)}}>
-						<option value="" selected disabled>Admission Type</option>
+						<option value="" defaultValue >Admission Type</option>
 						<option value="emergency">Emergency</option>
 						<option value="standard">Standard</option>
 						<option value="VIP">VIP</option>
@@ -265,7 +261,7 @@ function AdmitPatient() {
 							value={bedType}
 							onChange={handleBedTypeChange}
 							required>
-							<option value="select" disabled>
+							<option value="select" defaultValue>
 								Select
 							</option>
 							<option value="regular">Regular</option>

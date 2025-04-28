@@ -1,102 +1,94 @@
-import "./DoctorManagement.css";
+import "./NurseManagement.css";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import React, { useState, useEffect, use, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import PageHeader from "../PageHeader/PageHeader";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const DoctorManagement = () => {
+
+
+const NurseManagement = () => {
 	const server_url = process.env.REACT_APP_API_URL;
 	const navigate = useNavigate();
-	const [doctors, setDoctors] = useState([]);
-	const [selectedDoctor, setSelectedDoctor] = useState(null);
+	const [nurses, setNurses] = useState([]);
+	const [selectedNurse, setSelectedNurse] = useState(null);
 	const [schedules, setSchedules] = useState([]);
 	const [selectedDate, setSelectedDate] = useState("");
 	const [selectedStartTime, setSelectedStartTime] = useState("");
 	const [selectedEndTime, setSelectedEndTime] = useState("");
-    const [startOfWeek, setStartOfWeek] = useState();
-    const [startOfWeekFormattedDate, setStartOfWeekFormattedDate] = useState();
-    const [scheduleCategory, setScheduleCategory] = useState("single-day");
-    const [doctorSearch, setDoctorSearch] = useState("");
-    const [fetchedDoctors, setFetchedDoctors] = useState([]);
+	const [startOfWeek, setStartOfWeek] = useState();
+	const [scheduleCategory, setScheduleCategory] = useState("single-day");
     const [reachedLastSunday, setReachedLastSunday] = useState(true);
+    const [startOfWeekFormattedDate, setStartOfWeekFormattedDate] = useState();
+	const [nurseSearch, setNurseSearch] = useState("");
+	const [fetchedNurses, setFetchedNurses] = useState([]);
 
-    const [weekdays, setWeekdays] = useState({
-        monday: { selected: false, time: "" },
-        tuesday: { selected: false, time: "" },
-        wednesday: { selected: false, time: "" },
-        thursday: { selected: false, time: "" },
-        friday: { selected: false, time: "" },
-        saturday: { selected: false, time: "" },
-        sunday: { selected: false, time: "" },
-    })
-
-	const [scheduleData, setScheduleData] = useState({
-		date: "",
-		startTime: "",
-		endTime: "",
+	const [weekdays, setWeekdays] = useState({
+		monday: { selected: false, time: "" },
+		tuesday: { selected: false, time: "" },
+		wednesday: { selected: false, time: "" },
+		thursday: { selected: false, time: "" },
+		friday: { selected: false, time: "" },
+		saturday: { selected: false, time: "" },
+		sunday: { selected: false, time: "" },
 	});
 
 	useEffect(() => {
-        const { formattedDate, nextSunday } = findNextSunday();
-        
-        setStartOfWeek(nextSunday);
-        setStartOfWeekFormattedDate(formattedDate);
-		$.ajax({
-			url: `${server_url}/doctors`,
-			method: "GET",
-			headers: {
-				"Authorization": `Bearer ${localStorage.getItem("token")}`,
-				"Content-Type": "application/json",
-			},
-			success: function (response) {
-				setDoctors(response);
-			},
-			error: function (error) {
-				console.error("There was an error fetching the doctors!", error);
-			},
-		});
-	}, []);
-
-    useEffect(() => {
-		if (doctorSearch.length > 1) {
+		if (nurseSearch.length > 1) {
 			$.ajax({
-				url: `${server_url}/doctors/get-doctors-by-name?search=${doctorSearch}`,
+				url: `${server_url}/nurses/get-nurses-by-name?search=${nurseSearch}`,
 				method: "GET",
 				headers: {
 					"Authorization": `Bearer ${localStorage.getItem("token")}`,
 					"Content-Type": "application/json",
 				},
 				success: function (data) {
-                    
-					if (Array.isArray(data.doctors)) {
-						setFetchedDoctors(data.doctors);
+					if (Array.isArray(data.nurses)) {
+						setFetchedNurses(data.nurses);
 					} else {
-						setFetchedDoctors([]);
+						setFetchedNurses([]);
 					}
 				},
 				error: function (err) {
 					console.error("Error fetching patients:", err);
-					setFetchedDoctors([]);
+					setFetchedNurses([]);
 				},
 			});
 		} else {
-			setFetchedDoctors([]);
+			setFetchedNurses([]);
 		}
-	}, [doctorSearch]);
+	}, [nurseSearch]);
 
-	const handleDoctorClick = (doctor) => {
-		setSelectedDoctor(doctor);
-		setSchedules(doctor.schedules);
-        setFetchedDoctors([]);
+	useEffect(() => {
+		const { formattedDate, nextSunday } = findNextSunday();
+		setStartOfWeek(nextSunday);
+        setStartOfWeekFormattedDate(formattedDate);
+		$.ajax({
+			url: `${server_url}/nurses`,
+			method: "GET",
+			headers: {
+				"Authorization": `Bearer ${localStorage.getItem("token")}`,
+				"Content-Type": "application/json",
+			},
+			success: function (response) {
+				setNurses(response.nurses);
+			},
+			error: function (error) {
+				console.error("There was an error fetching the nurses!", error);
+			},
+		});
+	}, []);
+
+	const handleNurseClick = (nurse) => {
+		setSelectedNurse(nurse);
+		setSchedules(nurse.schedules);
 	};
 
 	const handleDateChange = (e) => {
 		setSelectedDate(e.target.value);
 		setSelectedStartTime("");
 		setSelectedEndTime("");
-		// setScheduleData(prev => ({ ...prev, date: date.format("YYYY-MM-DD") }));
 	};
 
 	const handleStartTimeChange = (e) => {
@@ -122,111 +114,99 @@ const DoctorManagement = () => {
 	const timeOptions = React.useMemo(() => generateTimeOptions(), []);
 
 	const handleSaveNewSchedule = () => {
-		if (scheduleCategory == "single-day") {
-            if (!selectedDate || (!selectedStartTime && !selectedEndTime)) {
-                alert("Please select both date and time.");
-                return;
-            }
-            const newScheduleEntry = {
-                id: schedules.length + 1,
-                start_time: `${selectedDate}T${selectedStartTime}:00Z`,
-                end_time: `${selectedDate}T${selectedEndTime}`,
-                status: 1,
-                doctorId: selectedDoctor.id,
-                date: selectedDate,
-            };
-    
-            const scheduleEntry = {
-                startTime: `${selectedDate}T${selectedStartTime}:00Z`,
-                endTime: `${selectedDate}T${selectedEndTime}`,
-                status: 1,
-                doctorId: selectedDoctor.id,
-                date: selectedDate,
-            };
-    
-            $.ajax({
-                url: `${server_url}/schedule/create`,
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                    "Content-Type": "application/json",
-                },
-                data: JSON.stringify(scheduleEntry),
-                success: function (response) {
-                    toast.success("The schedule has been created successfully");
-                    setSchedules([...schedules, response]);
-    
-                    setSelectedDate("");
-                    setSelectedEndTime("");
-                    setSelectedStartTime("");
-                },
-                error: function (error) {
-                    if (error.status == 408) {
-                        toast.error(
-                            "Cannot create a schedule for a date that is in the past."
-                        );
-                    } else if (error.status == 400) {
-                        toast.error("Doctor is scheduled for the same day already.");
-                    }
-                },
-            });
-        } else if (scheduleCategory == "whole-week" && weekdays && startOfWeekFormattedDate) {
-            if (weekdays && selectedDoctor) {
-                for (const [day, data] of Object.entries(weekdays)) {
-                    if (data.selected && !data.time) {
-                        toast.error(`You have not selected a shift time for ${day.toUpperCase()}!`);
-                        return false;
-                    }
-                }
+		if (scheduleCategory === "single-day") {
+			if (!selectedDate || (!selectedStartTime && !selectedEndTime)) {
+				alert("Please select both date and time.");
+				return;
+			}
 
-                const { formattedDate, nextSunday } = findNextSunday();
-
-                let payload = {
-                    weekdays: weekdays,
-                    nextSunday: new Date(startOfWeekFormattedDate).toDateString(),
-                    doctorId: selectedDoctor.id,
-                }
-
-                $.ajax({
-                    url: `${server_url}/schedule/create-schedule-for-coming-week`,
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                        "Content-Type": "application/json",
-                    },
-                    data: JSON.stringify(payload),
-                    success: function (response) {
-                        setSchedules([...schedules, ...response]);
-                        toast.success("The doctor has been scheduled for the selected days");
-                    },
-                    error: function (error) {
-                        if (error.status == 408) {
-                            toast.error(
-                                "Cannot create a schedule for a date that is in the past."
-                            );
-                        } else if (error.status == 400) {
-                            toast.error(error.responseJSON.message);
-                        } else if (error.status == 404) {
-                            toast.error(error.responseJSON.message);
-                        } else if (error.status == 409) {
-                            toast.error(error.responseJSON.message);
-                        }
-                    },
-                });
-            }
-        }
-	};
-
-	const addDoctor = function () {};
-
-	const handleCancelSchedule = (individual_schedule) => {
-		const confirmCancel = window.confirm("Are you sure you want to cancel the scheduling?");
-
-		if (confirmCancel) {
-			const payload = {
-				schedule: individual_schedule,
+			const scheduleEntry = {
+				startTime: `${selectedDate}T${selectedStartTime}:00Z`,
+				endTime: `${selectedDate}T${selectedEndTime}`,
+				status: "available",
+				nurseId: selectedNurse.id,
+				date: selectedDate,
 			};
 
+			$.ajax({
+				url: `${server_url}/schedule/create`,
+				method: "POST",
+				headers: {
+					"Authorization": `Bearer ${localStorage.getItem("token")}`,
+					"Content-Type": "application/json",
+				},
+				data: JSON.stringify(scheduleEntry),
+				success: function (response) {
+					toast.success("The schedule has been created successfully");
+					setSchedules([...schedules, response]);
+					setSelectedDate("");
+					setSelectedEndTime("");
+					setSelectedStartTime("");
+				},
+				error: function (error) {
+					if (error.status === 408) {
+						toast.error(
+							"Cannot create a schedule for a date that is in the past."
+						);
+					} else if (error.status === 400) {
+						toast.error("Nurse is scheduled for the same day already.");
+					}
+				},
+			});
+		} else if (scheduleCategory === "whole-week" && weekdays) {
+			console.log("The second batch of conditions");
+			if (weekdays && selectedNurse) {
+				for (const [day, data] of Object.entries(weekdays)) {
+					if (data.selected && !data.time) {
+						toast.error(
+							"You have not selected a shift time for a selected day!"
+						);
+						return;
+					}
+				}
+
+				const { formattedDate, nextSunday } = findNextSunday();
+
+				let payload = {
+					weekdays: weekdays,
+					nextSunday: nextSunday,
+					nurseId: selectedNurse.id,
+				};
+
+				$.ajax({
+					url: `${server_url}/schedule/create-schedule-for-coming-week`,
+					method: "POST",
+					headers: {
+						"Authorization": `Bearer ${localStorage.getItem("token")}`,
+						"Content-Type": "application/json",
+					},
+					data: JSON.stringify(payload),
+					success: function (response) {
+						console.log(response);
+						setSchedules([...schedules, ...response.created_schedules]);
+						toast.success("The nurse has been scheduled for the selected days");
+					},
+					error: function (error) {
+						if (
+							error.status === 408 ||
+							error.status === 400 ||
+							error.status === 404 ||
+							error.status === 409
+						) {
+							toast.error(error.responseJSON.message);
+						}
+					},
+				});
+			}
+		}
+	};
+
+	const handleCancelSchedule = (individual_schedule) => {
+		const confirmCancel = window.confirm(
+			"Are you sure you want to cancel the schedule?"
+		);
+		if (confirmCancel) {
+			const payload = { schedule: individual_schedule };
 			$.ajax({
 				url: `${server_url}/schedule/cancel-schedule`,
 				method: "POST",
@@ -236,85 +216,23 @@ const DoctorManagement = () => {
 				},
 				data: JSON.stringify(payload),
 				success: function (response) {
-					if (response.success == true) {
+					if (response.success === true) {
 						setSchedules((prevSchedules) =>
 							prevSchedules.filter(
 								(schedule) => schedule.id !== individual_schedule.id
 							)
 						);
+						toast.success("The scheduling has been cancelled successfully");
 					}
 				},
 				error: function (error) {
-					console.log(error);
+					toast.error("The was an error in cancelling the schedule");
 				},
 			});
 		}
 	};
 
-    const handleDayCheckboxChange = (e) => {
-        let weekday = e.target.id;
-
-        setWeekdays((prevState) => {
-            const isSelected = prevState[weekday].selected;
-
-            return {
-                ...prevState,
-                [weekday]: {
-                    ...prevState[weekday],
-                    selected: !prevState[weekday].selected,
-                    time: !isSelected ? prevState[weekday].time : "",
-                }
-            };
-        })
-    }
-
-    const handleShiftSelectChange = (e, weekday) => {
-        setWeekdays((prevState) => ({
-            ...prevState,
-            [weekday]: {
-                ...prevState[weekday],
-                time: e.target.value,
-            },
-        }));
-    };
-    
-
-    const findNextSunday = () => {
-        let today = new Date();
-        let nextSunday = new Date(today);
-    
-        while (nextSunday.getDay() !== 0) {
-            nextSunday.setDate(nextSunday.getDate() + 1);
-        }
-    
-        const date = new Date(nextSunday);
-        
-        const formattedDate = date.toISOString().split("T")[0];
-        return {
-            formattedDate: formattedDate,
-            nextSunday: nextSunday.toDateString(),
-        };
-    };
-
-    const handleScheduleCatChange = (e) => {
-        if (e.target.name == "single-day") {
-            if (e.target.checked) {
-                setScheduleCategory(e.target.name);
-            } else {
-                setScheduleCategory("");
-            }
-        }
-
-        if (e.target.name == "whole-week") {
-            if (e.target.checked) {
-                setScheduleCategory(e.target.name);
-            } else {
-                setScheduleCategory("");
-            }
-        }
-    }
-
-    const handleChangeNextSunday = (num) => {
+	const handleChangeNextSunday = (num) => {
         if (startOfWeekFormattedDate) {
             const date = new Date(startOfWeekFormattedDate);
 
@@ -345,35 +263,86 @@ const DoctorManagement = () => {
             return new_date;
         }
     }
-    
-	return (
-		<div className="doctor-management">
-			<PageHeader title="Doctor Management" backPath="/staff-management" />
 
+	const handleDayCheckboxChange = (e) => {
+		let weekday = e.target.id;
+		setWeekdays((prevState) => {
+			const isSelected = prevState[weekday].selected;
+			return {
+				...prevState,
+				[weekday]: {
+					...prevState[weekday],
+					selected: !isSelected,
+					time: !isSelected ? prevState[weekday].time : "",
+				},
+			};
+		});
+	};
+
+	const handleShiftSelectChange = (e, weekday) => {
+		setWeekdays((prevState) => ({
+			...prevState,
+			[weekday]: {
+				...prevState[weekday],
+				time: e.target.value,
+			},
+		}));
+	};
+
+	const findNextSunday = () => {
+		let today = new Date();
+		let nextSunday = new Date(today);
+
+		while (nextSunday.getDay() !== 0) {
+			nextSunday.setDate(nextSunday.getDate() + 1);
+		}
+
+		const date = new Date(nextSunday);
+		const formattedDate = date.toISOString().split("T")[0];
+		return {
+			formattedDate: formattedDate,
+			nextSunday: nextSunday.toDateString(),
+		};
+	};
+
+	const handleScheduleCatChange = (e) => {
+		if (e.target.name === "single-day") {
+			setScheduleCategory(e.target.checked ? e.target.name : "");
+		}
+		if (e.target.name === "whole-week") {
+			setScheduleCategory(e.target.checked ? e.target.name : "");
+		}
+	};
+
+	return (
+		<div className="nurse-management">
+			<PageHeader title="Nurse Management" backPath="/staff-management" />
 			<div className="mngt-board">
-				<div className="sidebar">
-					<h3>Doctors</h3>
+				<div className="sidebar3">
+					<h3>Nurses</h3>
 					<button>All Schedules</button>
 					<Link
-						to="/staff/doctors/add"
+						to="/add-nurse"
 						style={{ textDecoration: "none", color: "inherit" }}>
-						<button onClick={addDoctor}>➕ Add Doctor</button>
+						<button>➕ Add Nurse</button>
 					</Link>
-                    <label>Search doctor</label>
+
+					<label>Search nurse</label>
                     <input
                     type="text"
-                    value={doctorSearch} 
-                    onChange={(e) => setDoctorSearch(e.target.value)}
+                    value={nurseSearch} 
+                    onChange={(e) => setNurseSearch(e.target.value)}
                     />
 
-                    <ul>
+					<ul>
                         {
-                            fetchedDoctors.map((doc) => (
-                                <li key={doc.id} onClick={() => {
-                                    handleDoctorClick(doc);
-                                }}>{doc.firstName + " " + doc.lastName}<button className="view-filtered-doc-btn"
+                            fetchedNurses.map((one_nurse) => (
+                                <li key={one_nurse.id} onClick={() => {
+                                    handleNurseClick(one_nurse);
+                                }}>{one_nurse.firstName + " " + one_nurse.lastName}<button className="view-filtered-doc-btn"
                                 onClick={() => {
-                                    navigate("/view-doctor-schedule", { state: { doctor: doc } });
+									console.log(one_nurse);
+                                    navigate("/view-nurse-schedule", { state: { nurse: one_nurse } });
                                 }}
                                 >View</button>
                                 </li>
@@ -382,37 +351,36 @@ const DoctorManagement = () => {
                         }
                     </ul>
 
-					<ul className="scrollable-side-list">
-						{doctors.map((doctor, index) => (
-							<li key={doctor.id} onClick={() => handleDoctorClick(doctor)}>
-								{doctor.firstName} {doctor.lastName}
-								<Link
-									to="/view-doctor-schedule"
-									state={{ doctor }}
-									style={{ textDecoration: "none", color: "inherit" }}>
-									<button>View</button>
-								</Link>
-							</li>
-						))}
+					<ul>
+						{nurses &&
+							nurses.map((nurse, index) => (
+								<li key={nurse.id} onClick={() => handleNurseClick(nurse)}>
+									{nurse.firstName} {nurse.lastName}
+									<Link
+										to="/view-nurse-schedule"
+										state={{ nurse }}
+										style={{ textDecoration: "none", color: "inherit" }}>
+										<button>View</button>
+									</Link>
+								</li>
+							))}
 					</ul>
 				</div>
-
 				<div className="main-content">
-					{selectedDoctor ? (
-						<div className="doctor-details">
-							<h3>Doctor Details</h3>
+					{selectedNurse ? (
+						<div className="nurse-details">
+							<h3>Nurse Details</h3>
 							<p>
-								<strong>Name:</strong> {selectedDoctor.firstName}{" "}
-								{selectedDoctor.lastName}
+								<strong>Name:</strong> {selectedNurse.firstName}{" "}
+								{selectedNurse.lastName}
 							</p>
 							<p>
-								<strong>Specialization:</strong> {selectedDoctor.specialization}
+								<strong>Specialization:</strong> {selectedNurse.specialization}
 							</p>
 						</div>
 					) : (
-						<p>Select a doctor to see the details</p>
+						<p>Select a nurse to see the details</p>
 					)}
-
 					<div className="schedule">
 						<h3>Set Schedule</h3>
                         <div className="schedule-types-checkboxes">
@@ -469,6 +437,7 @@ const DoctorManagement = () => {
                             </div>
                             </>
                         }
+						
 
                         {
                             scheduleCategory == "whole-week" && (
@@ -668,13 +637,12 @@ const DoctorManagement = () => {
 						<div className="save-schedule-div">
 							<button
 								onClick={handleSaveNewSchedule}
-								disabled={selectedDoctor === null || scheduleCategory == ""}
+								disabled={selectedNurse === null || scheduleCategory == ""}
 								className="save-schedule-btn">
 								Save New Schedule
 							</button>
 						</div>
 					</div>
-
 					<div className="schedule">
 						<h3>Schedule</h3>
 						<table>
@@ -688,7 +656,7 @@ const DoctorManagement = () => {
 								</tr>
 							</thead>
 							<tbody>
-								{schedules.map((item) => (
+								{schedules && schedules.map((item) => (
 									<tr key={item.id}>
 										<td>{item.startTime}</td>
 										<td>{item.endTime}</td>
@@ -714,4 +682,4 @@ const DoctorManagement = () => {
 	);
 };
 
-export default DoctorManagement;
+export default NurseManagement;

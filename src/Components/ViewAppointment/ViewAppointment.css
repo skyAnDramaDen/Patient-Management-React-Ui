@@ -142,7 +142,8 @@
   
   .notes-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
   }
   
   .no-data {
@@ -181,6 +182,7 @@
   .save-btn {
     background-color: #3498db;
     color: white;
+    width: auto;
   }
   
   .save-btn:hover:not(:disabled) {

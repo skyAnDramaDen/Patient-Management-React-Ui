@@ -1,0 +1,282 @@
+.nurse-home-container {
+    padding: 20px;
+    max-width: auto;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+
+.nurse-header {
+    background: linear-gradient(135deg, #4a6fa5 0%, #166088 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.welcome-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.nurse-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.nurse-header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+
+.nurse-header h1 span {
+    color: #ffcc00;
+}
+
+.nurse-specialty {
+    margin: 5px 0 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+    background: #f8f9fa;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #2c3e50;
+}
+
+.card-icon {
+    margin-right: 10px;
+    font-size: 1.2rem;
+    color: #166088;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.schedule-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.schedule-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.schedule-item:last-child {
+    border-bottom: none;
+}
+
+.schedule-date, .schedule-time, .schedule-ward {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.schedule-date svg, .schedule-time svg {
+    margin-right: 8px;
+    color: #4a6fa5;
+}
+
+.schedule-date span {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.schedule-time span {
+    color: #666;
+}
+
+.schedule-ward span {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    background: #f0f3f5;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.patient-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.patient-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.patient-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.patient-name {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.patient-condition {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+/* .patient-actions {
+    display: flex;
+    gap: 8px;
+} */
+
+.view-all-btn, .primary-btn, .action-btn {
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.view-all-btn {
+    background: transparent;
+    color: #166088;
+    margin-top: 10px;
+    width: 100%;
+    border: 1px solid #166088;
+}
+
+.view-all-btn:hover {
+    background: #f0f7fc;
+}
+
+.primary-btn {
+    background: #166088;
+    color: white;
+    margin-top: 15px;
+}
+
+.primary-btn:hover {
+    background: #1a7ca8;
+}
+
+.action2-butn {
+    background: #e9ecef;
+    color: #495057;
+    font-size: 0.85rem;
+    padding: 5px ;
+    width: auto;
+}
+
+.action2-butn:hover {
+    background: #dee2e6;
+}
+
+.action2-butn.large {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 100%;
+    font-size: 1rem;
+    gap: 8px;
+}
+
+.action2-butn.large svg {
+    font-size: 1.5rem;
+}
+
+.action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 20px 0;
+    color: #7f8c8d;
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+}
+
+.spinner {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #166088;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+.vitals-action-btn {
+    width: auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .nurse-header {
+        padding: 20px;
+    }
+    
+    .nurse-header h1 {
+        font-size: 1.8rem;
+    }
+}

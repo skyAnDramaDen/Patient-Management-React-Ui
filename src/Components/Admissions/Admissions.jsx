@@ -19,7 +19,7 @@ function Admissions() {
 			url: `${server_url}/admissions/`,
 			method: "GET",
 			headers: {
-				Authorization: `Bearer ${localStorage.getItem("token")}`,
+				"Authorization": `Bearer ${localStorage.getItem("token")}`,
 				"Content-Type": "application/json",
 			},
 			success: function (response) {
@@ -39,7 +39,7 @@ function Admissions() {
 				url: `${server_url}/admissions/get-patient/?search=${patientSearch}`,
 				method: "GET",
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
+					"Authorization": `Bearer ${localStorage.getItem("token")}`,
 					"Content-Type": "application/json",
 				},
 				success: function (response) {
@@ -102,8 +102,9 @@ function Admissions() {
 								</strong>{" "}
 								- Admitted on:{" "}
 								<strong>{formatDateTimeValue(admission.admissionDate)}</strong>{" "}
-								- Reason: {admission.reasonForAdmission} - Bed:{" "}
-								{admission.bedId} - Status: <strong>{admission.status}</strong>
+								- Ward: {admission.wardAdmissions[0].ward.name} - Bed:{" "}
+								- Floor: {admission.wardAdmissions[0].ward.floor.name} 
+								- {admission.bedId} - Status: <strong>{admission.status}</strong>
 							</p></Link>
 						);
 					})}

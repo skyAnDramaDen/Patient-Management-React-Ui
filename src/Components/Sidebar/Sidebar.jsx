@@ -15,8 +15,9 @@ const Sidebar = forwardRef(({ show, setShowNav }, ref) => {
 	const menuItems = [
 		{ name: "HOME", to: "/", roles: ["super-admin"] },
 		{ name: "HOME", to: "/doctor-home", roles: ["doctor"] },
+		{ name: "HOME", to: "/nurse-home", roles: ["nurse"] },
 		{
-			name: "PATIENT MNGMNT",
+			name: "PATIENTS",
 			to: "/patient-management",
 			roles: ["super-admin", "nurse"],
 		},
@@ -27,7 +28,7 @@ const Sidebar = forwardRef(({ show, setShowNav }, ref) => {
 		{
 			name: "BILLING/PAYMENT",
 			to: "/billing-and-payment",
-			roles: ["super-admin", "nurse"],
+			roles: ["super-admin",],
 		},
 		{ name: "ADMISSIONS", to: "/admissions", roles: ["super-admin", "nurse"] },
 		{ name: "CHAT", to: "/doctor-chat", roles: ["doctor"] },

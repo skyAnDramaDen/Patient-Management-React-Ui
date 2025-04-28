@@ -1,11 +1,13 @@
 import "./ViewAppointment.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PageHeader from "../PageHeader/PageHeader";
 import $ from "jquery";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import { AuthContext } from "../../Authcontext";
 
 function ViewAppointment() {
 	const location = useLocation();
@@ -18,6 +20,7 @@ function ViewAppointment() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const server_url = process.env.REACT_APP_API_URL;
+	const { role } = useContext(AuthContext);
 
 	useEffect(() => {
 		if (location.state?.appointment) {
@@ -122,7 +125,6 @@ function ViewAppointment() {
             }
 		} catch (err) {
 			setError("Failed to complete appointment");
-			console.error("Error completing appointment:", err);
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -194,14 +196,6 @@ function ViewAppointment() {
 											: "Not specified"}
 									</span>
 								</div>
-								<div className="detail-row">
-									<span className="detail-label">Phone:</span>
-									<span>{patient.phone || "Not specified"}</span>
-								</div>
-								<div className="detail-row">
-									<span className="detail-label">Email:</span>
-									<span>{patient.email || "Not specified"}</span>
-								</div>
 							</div>
 						) : (
 							<div className="no-data">No patient information available</div>
@@ -247,7 +241,8 @@ function ViewAppointment() {
 							</div>}
 					</section>
 
-					<section className="doctor-notes-section">
+					{
+						(role && role == "doctor" || role == "super-admin") && <section className="doctor-notes-section">
 						<h2 className="section-title">Doctor's Notes</h2>
 						<textarea
 							className="notes-textarea"
@@ -260,25 +255,28 @@ function ViewAppointment() {
 							<button
 								className="btn save-btn"
 								onClick={handleSaveNotes}
-								disabled={isSubmitting || appointment.status == "completed"}>
+								disabled={isSubmitting || appointment.status == "completed" || appointment.status == "cancelled"}>
 								{isSubmitting ? "Saving..." : "Save Notes"}
 							</button>
 						</div>
 					</section>
+					}
 				</div>
 			</div>
-
+			{
+			(role && role == "doctor" || role == "super-admin") &&
 			<div className="action-buttons">
 				<button
 					className="btn complete-btn"
 					onClick={handleCompleteAppointment}
-					disabled={isSubmitting || appointment.status == "completed"}>
+					disabled={isSubmitting || appointment.status == "completed" || appointment.status == "cancelled"}>
 					{isSubmitting ? "Processing..." : "Conclude Appointment"}
 				</button>
 				<button className="btn cancel-btn" onClick={handleCancel}>
 					Back
 				</button>
 			</div>
+			}
 		</div>
 	);
 }

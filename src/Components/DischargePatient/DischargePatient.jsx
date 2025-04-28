@@ -207,6 +207,12 @@ function DischargePatient() {
 	};
 
     const handleDischargePatient = () => {
+		const confirm = window.confirm("Are you sure you want to discharge this patient?");
+		if (confirm) {
+			
+		} else {
+			return;
+		}
         const payload = {
             paymentType: paymentType
         }

@@ -9,10 +9,6 @@ const AppointmentDetails = () => {
 
     const appointment = location.state.appointment;
 
-    // const appointment = state ? state.appointment : null;
-    // const navigate = useNavigate();
-    // const appointment = location.state.appointment ? location.state.appointment : "null";
-
     return (
         <div className="appointment-details">
             <h2>Appointment Details</h2>

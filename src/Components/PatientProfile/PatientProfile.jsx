@@ -2,6 +2,7 @@ import './PatientProfile.css';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import $ from "jquery";
+import PageHeader from '../PageHeader/PageHeader';
 
 const PatientProfile = () => {
     const { state } = useLocation();
@@ -82,12 +83,7 @@ const PatientProfile = () => {
     return (
         <div className="patient-profile">
             <div className="top-view">
-                <button
-                    className="back-button"
-                    onClick={() => navigate("/patients")}
-                >
-                    🔙 Back
-                </button>
+                <PageHeader title="Patient Profile" backPath="/patients" />
                 <h2 className="patient-profile-title">Patient Profile</h2>
 
                 <Link to="/patient/edit" state={{ patient }} style={{ textDecoration: "none", color: "inherit" }}>
